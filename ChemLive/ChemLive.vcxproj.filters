@@ -139,7 +139,7 @@
   <ItemGroup>
     <None Include="PropertySheet.props" />
     <None Include="packages.config" />
-    <None Include="..\..\Documentation\Basic Cube Documentation.pptx" />
+    <None Include="Basic Cube Documentation.pptx" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
