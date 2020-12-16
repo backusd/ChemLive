@@ -158,6 +158,7 @@
     <ClCompile Include="SphereRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Documentation\Basic Cube Documentation.pptx" />
     <None Include="packages.config" />
     <None Include="PropertySheet.props" />
     <Text Include="readme.txt">

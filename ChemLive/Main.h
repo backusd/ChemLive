@@ -50,15 +50,24 @@ namespace ChemLive
 		std::unique_ptr<MoveLookController> m_moveLookController;
 
 		// TODO: Replace with your own content renderers.
+
+		// DJ's Code -------------------------------------------
+
 		// Simple Cube Renderers
 		std::unique_ptr<Sample3DSceneRenderer> m_sceneRenderer;
 		std::unique_ptr<SampleFpsTextRenderer> m_fpsTextRenderer;
 
+
+		// Kody's Code ----------------------------------------
+
 		// Sphere Renderer
-		std::unique_ptr<SphereRenderer> m_sphereRenderer;
+		//std::unique_ptr<SphereRenderer> m_sphereRenderer;
 
 		// Simulation
-		std::unique_ptr<Simulation::Simulation> m_simulation;
+		//std::unique_ptr<Simulation::Simulation> m_simulation;
+
+
+
 
 		// Rendering loop timer.
 		DX::StepTimer m_timer;

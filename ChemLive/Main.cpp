@@ -18,15 +18,19 @@ namespace ChemLive
 
 		// TODO: Replace this with your app's content initialization.
 
+		// DJ's Code -------------------------------------
+
 		// Simple Cube
 		m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
 		m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 
+		// Kody's Code -------------------------------------
+
 		// Sphere
-		m_sphereRenderer = std::unique_ptr<SphereRenderer>(new SphereRenderer(m_deviceResources));
+		//m_sphereRenderer = std::unique_ptr<SphereRenderer>(new SphereRenderer(m_deviceResources));
 
 		// Simulation
-		m_simulation = std::unique_ptr<Simulation::Simulation>(new Simulation::Simulation(m_deviceResources));
+		//m_simulation = std::unique_ptr<Simulation::Simulation>(new Simulation::Simulation(m_deviceResources));
 
 		// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 		// e.g. for 60 FPS fixed timestep update logic, call:
@@ -47,14 +51,18 @@ namespace ChemLive
 	{
 		// TODO: Replace this with the size-dependent initialization of your app's content.
 		
+		// DJ's Code ----------------------------------------------
+
 		// Simple Cube
 		m_sceneRenderer->CreateWindowSizeDependentResources();
 
+		// Kody's Code --------------------------------------------
+
 		// Sphere
-		m_sphereRenderer->CreateWindowSizeDependentResources();
+		//m_sphereRenderer->CreateWindowSizeDependentResources();
 
 		// Simulation
-		m_simulation->CreateWindowSizeDependentResources();
+		//m_simulation->CreateWindowSizeDependentResources();
 	}
 
 	// Updates the application state once per frame.
@@ -67,15 +75,20 @@ namespace ChemLive
 			{
 				// TODO: Replace this with your app's content update functions.
 
+				// DJ's code -------------------------------------------------
+
 				// Simple Cube
-				//m_sceneRenderer->Update(m_timer);
+				m_sceneRenderer->Update(m_timer);
 				m_fpsTextRenderer->Update(m_timer);
+
+
+				// Kody's code ----------------------------------------------------
 
 				// Sphere
 				//m_sphereRenderer->Update(m_timer);
 
 				// Simulation
-				m_simulation->UpdateSimulation(m_timer);
+				//m_simulation->UpdateSimulation(m_timer);
 			});
 	}
 
@@ -87,6 +100,9 @@ namespace ChemLive
 		// Query the MoveLookController for any updates that may have occurred since 
 		// the last rendering pass and update the state accordingly
 
+
+		// DJ's code -------------------------------------------------------
+
 		// Simple Cube
 		if (!m_moveLookController->MouseDown() && m_sceneRenderer->IsTracking())
 			m_sceneRenderer->StopTracking();
@@ -95,6 +111,10 @@ namespace ChemLive
 
 		if (m_sceneRenderer->IsTracking())
 			m_sceneRenderer->TrackingUpdate(m_moveLookController->MousePositionX());
+
+
+
+		// Kody's Code ---------------------------------------------------------
 		
 		// Sphere
 		//
@@ -136,15 +156,20 @@ namespace ChemLive
 		// Render the scene objects.
 		// TODO: Replace this with your app's content rendering functions.
 
+		// DJ's code ------------------------------------------------------
+
 		// Simple Cube
-		//m_sceneRenderer->Render();
+		m_sceneRenderer->Render();
 		m_fpsTextRenderer->Render();
+
+
+		// Kody's Code --------------------------------------------------
 
 		// Sphere
 		//m_sphereRenderer->Render();
 
 		// Simulation
-		m_simulation->Render();
+		//m_simulation->Render();
 
 
 		return true;
@@ -153,29 +178,38 @@ namespace ChemLive
 	// Notifies renderers that device resources need to be released.
 	void Main::OnDeviceLost()
 	{
+		// DJ's Code ----------------------------------------------
+		
 		// Simple Cube
 		m_sceneRenderer->ReleaseDeviceDependentResources();
 		m_fpsTextRenderer->ReleaseDeviceDependentResources();
 
+
+		// Kody's Code -------------------------------------------
+
 		// Sphere
-		m_sphereRenderer->ReleaseDeviceDependentResources();
+		//m_sphereRenderer->ReleaseDeviceDependentResources();
 
 		// Simulation
-		m_simulation->ReleaseDeviceDependentResources();
+		//m_simulation->ReleaseDeviceDependentResources();
 	}
 
 	// Notifies renderers that device resources may now be recreated.
 	void Main::OnDeviceRestored()
 	{
+		// DJ's Code --------------------------------------------------
+
 		// Simple Cube
 		m_sceneRenderer->CreateDeviceDependentResourcesAsync();
 		m_fpsTextRenderer->CreateDeviceDependentResources();
 
+		// Kody's Code -------------------------------------------------
+
 		// Sphere
-		m_sphereRenderer->CreateDeviceDependentResourcesAsync();
+		//m_sphereRenderer->CreateDeviceDependentResourcesAsync();
 
 		// Simulation
-		m_simulation->CreateDeviceDependentResourcesAsync();
+		//m_simulation->CreateDeviceDependentResourcesAsync();
 
 		CreateWindowSizeDependentResources();
 	}
