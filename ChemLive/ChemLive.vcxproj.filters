@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="DeviceResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Sample3DSceneRenderer.cpp">
+      <Filter>Simple Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="SampleFpsTextRenderer.cpp">
+      <Filter>Simple Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveLookController.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereRenderer.cpp">
+      <Filter>Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulationRenderer.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Atom.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Hydrogen.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Electron.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="DeviceResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="StepTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXHelper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Sample3DSceneRenderer.h">
+      <Filter>Simple Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderStructures.h">
+      <Filter>Simple Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleFpsTextRenderer.h">
+      <Filter>Simple Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveLookController.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereRenderer.h">
+      <Filter>Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulationRenderer.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Atom.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Hydrogen.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="HLSLStructures.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Electron.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Wide310x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LockScreenLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{db9086fe-bacc-4437-8272-1aa6642082db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{48a8d7dd-0431-4be2-94e2-eb888bdfea2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{2ab578c5-f5f5-401f-8ee6-b46a6be9563f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simple Cube">
+      <UniqueIdentifier>{aa0f27aa-9ffc-416d-9e2d-ffca33402099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sphere">
+      <UniqueIdentifier>{e89d5703-234b-4a86-9545-b44a0d793b5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation">
+      <UniqueIdentifier>{844de79c-2459-402b-b1ea-0464879162a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Shaders">
+      <UniqueIdentifier>{e4e0f8ed-a287-4c8e-84f6-8dd2d8bfd9b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Particles">
+      <UniqueIdentifier>{e63de2e4-64cf-44e3-a39c-972994ecb8cb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PropertySheet.props" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="SamplePixelShader.hlsl">
+      <Filter>Simple Cube</Filter>
+    </FxCompile>
+    <FxCompile Include="SampleVertexShader.hlsl">
+      <Filter>Simple Cube</Filter>
+    </FxCompile>
+    <FxCompile Include="SphereVertexShader.hlsl">
+      <Filter>Sphere</Filter>
+    </FxCompile>
+    <FxCompile Include="SpherePixelShader.hlsl">
+      <Filter>Sphere</Filter>
+    </FxCompile>
+    <FxCompile Include="SimulationVertexShader.hlsl">
+      <Filter>Simulation\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="SimulationPixelShader.hlsl">
+      <Filter>Simulation\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
