@@ -19,7 +19,7 @@ namespace DirectX
 	// Initializes view parameters when the window size changes.
 	void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 	{
-		auto outputSize = m_deviceResources->GetOutputSize();
+		auto outputSize = m_deviceResources->GetRenderPaneOutputSize();
 		float aspectRatio = outputSize.Width / outputSize.Height;
 		float fovAngleY = 70.0f * XM_PI / 180.0f;
 
@@ -92,7 +92,7 @@ namespace DirectX
 	{
 		if (m_tracking)
 		{
-			float radians = XM_2PI * 2.0f * positionX / m_deviceResources->GetOutputSize().Width;
+			float radians = XM_2PI * 2.0f * positionX / m_deviceResources->GetFullOutputSize().Width;
 			Rotate(radians);
 		}
 	}

@@ -8,11 +8,11 @@ using DirectX::XMFLOAT3;
 
 namespace Simulation
 {
-	class Hydrogen : public Atom
+	class Helium : public Atom
 	{
 	public:
 		// Constructors
-		Hydrogen(const std::shared_ptr<DX::DeviceResources>& deviceResources, XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount, int charge);
+		Helium(const std::shared_ptr<DX::DeviceResources>& deviceResources, XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount, int charge);
 
 		// Update
 		void Update(double timeDelta, const std::vector<Atom*>& atoms, XMFLOAT3 boxDimensions);

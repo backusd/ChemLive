@@ -2,42 +2,18 @@
 
 namespace Simulation
 {
-	enum class LENGTH_UNIT
+	enum Element
 	{
-		METER,
-		MILLIMETER,
-		MICROMETER,
-		NANOMETER,
-		PICOMETER
+		INVALID   = 0,
+		HYDROGEN  = 1,
+		HELIUM    = 2,
+		LITHIUM   = 3,
+		BERYLLIUM = 4,
+		BORON     = 5,
+		CARBON    = 6,
+		NITROGEN  = 7,
+		OXYGEN    = 8,
+		FLOURINE  = 9,
+		NEON      = 10
 	};
-
-	enum class MASS_UNIT
-	{
-		GRAM,
-		MILLIGRAM,
-		MICROGRAM,
-		NANOGRAM,
-		PICOGRAM,
-		PROTON_MASSES,
-		ELECTRON_MASSES
-	};
-
-	enum class VELOCITY_UNIT
-	{
-		METER_PER_SECOND,
-		MILLIMETER_PER_SECOND,
-		MICROMETER_PER_SECOND,
-		NANOMETER_PER_SECOND,
-		PICOMETER_PER_SECOND
-	};
-
-	enum class TIME_UNIT
-	{
-		SECOND,
-		MILLISECOND,
-		MICROSECOND,
-		NANOSECOND,
-		PICOSECOND
-	};
-
 }

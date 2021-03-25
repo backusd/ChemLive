@@ -1,8 +1,12 @@
 #pragma once
 
+#include "StepTimer.h"
 
 using winrt::Windows::UI::Core::CoreWindow;
+using winrt::Windows::UI::Core::KeyEventArgs;
 using winrt::Windows::UI::Core::PointerEventArgs;
+
+using namespace DirectX;
 
 namespace ChemLive
 {
@@ -22,24 +26,45 @@ namespace ChemLive
 	class MoveLookController
 	{
     public:
-        MoveLookController(CoreWindow window);
+        MoveLookController(CoreWindow window, XMFLOAT3 boxDimensions);
 
         bool MouseDown() const { return m_mouseDown; }
-        float MousePositionX() const { return m_mousePositionX; }
+        float MousePositionX() const { return m_mousePositionXNew; }
+        float MousePositionY() const { return m_mousePositionYNew; }
 
-    private:
-        void InitWindow(CoreWindow window);
-        void ResetState();
+        bool IsMoving();
+
+        XMMATRIX ViewMatrix();
+
+        void Update(DX::StepTimer const& timer, D2D1_RECT_F renderPaneRect);
 
 
         void OnPointerPressed(CoreWindow, PointerEventArgs const&);
         void OnPointerMoved(CoreWindow, PointerEventArgs const&);
         void OnPointerReleased(CoreWindow, PointerEventArgs const&);
 
+        void OnKeyDown(CoreWindow, KeyEventArgs const&);
+        void OnKeyUp(CoreWindow, KeyEventArgs const&);
+
+        XMVECTOR EyeVector() { return m_eyeVec; }
+
+    private:
+        void InitWindow(CoreWindow window);
+        void ResetState();
+
+
+
+        void RotateLeftRight(float theta);
+        void RotateUpDown(float theta);
+
 
         // Pointer Variables
         bool m_mouseDown;
+
         float m_mousePositionX;
+        float m_mousePositionY;
+        float m_mousePositionXNew;
+        float m_mousePositionYNew;
 
         // Properties of the controller object.
         MoveLookControllerState     m_state;
@@ -77,6 +102,7 @@ namespace ChemLive
         bool                        m_pausePressed;
 
         // Input states for Keyboard.
+        bool                        m_shift;
         bool                        m_forward;
         bool                        m_back;
         bool                        m_left;
@@ -84,5 +110,18 @@ namespace ChemLive
         bool                        m_up;
         bool                        m_down;
         bool                        m_pause;
+
+        // Eye/at/up vectors
+        XMVECTOR m_eyeVec;
+        XMVECTOR m_atVec;
+        XMVECTOR m_upVec;
+
+        // Keep track of total time to be able to compute the time delta
+        double m_elapsedTime;
+
+        // Angle of rotation for computing the rotation matrix
+        float m_xRadians;
+        float m_yRadians;
+        float m_zRadians;
     };
 }

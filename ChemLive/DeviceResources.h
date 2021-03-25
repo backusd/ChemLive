@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Layout.h"
+
 using winrt::Windows::Foundation::Size;
 using winrt::Windows::Graphics::Display::DisplayOrientations;
 using winrt::Windows::UI::Core::CoreWindow;
@@ -17,8 +19,7 @@ namespace DX
 	{
 	public:
 		DeviceResources();
-		void SetWindow(CoreWindow const& window);
-		void SetLogicalSize(Size const& logicalSize);
+		void SetLayout(std::shared_ptr<ChemLive::Layout> layout);
 		void SetCurrentOrientation(DisplayOrientations const& currentOrientation);
 		void SetDpi(float dpi);
 		void ValidateDevice();
@@ -27,14 +28,19 @@ namespace DX
 		void Trim();
 		void Present();
 		void UpdateStereoState();
+		void WindowSizeChanged();		
 
 		// The size of the render target, in pixels.
-		Size	GetOutputSize() const { return m_outputSize; }
+		Size	GetFullOutputSize() const { return Size(m_layout->FullWindowWidthPixels(), m_layout->FullWindowHeightPixels()); }
+		Size	GetRenderPaneOutputSize() const { return Size(m_layout->RenderPaneWidthPixels(), m_layout->RenderPaneHeightPixels()); }
 
 		// The size of the render target, in dips.
-		Size	GetLogicalSize() const { return m_logicalSize; }
-		float	GetDpi() const { return m_effectiveDpi; }
+		Size	GetFullLogicalSize() const { return Size(m_layout->FullWindowWidthDIPS(), m_layout->FullWindowHeightDIPS()); }
+		float	GetDpi() const { return m_layout->DPI(); }
 		bool    GetStereoState() const { return m_stereoEnabled; }
+
+		// Get a pointer to the layout
+		std::shared_ptr<ChemLive::Layout> GetLayout() { return m_layout; }
 
 		// D3D Accessors.
 		ID3D11Device3*			 GetD3DDevice() const { return m_d3dDevice.get(); }
@@ -59,9 +65,11 @@ namespace DX
 		void CreateDeviceIndependentResources();
 		void CreateDeviceResources();
 		void CreateWindowSizeDependentResources();
-		void UpdateRenderTargetSize();
 		DXGI_MODE_ROTATION ComputeDisplayRotation();
 		void CheckStereoEnabledStatus();
+
+		// Shared pointer to Layout class that defines the pane layout for the app
+		std::shared_ptr<ChemLive::Layout> m_layout;
 
 		// Direct3D objects.
 		winrt::com_ptr<ID3D11Device3>			m_d3dDevice;
@@ -87,17 +95,10 @@ namespace DX
 		winrt::agile_ref<CoreWindow> m_window;
 
 		// Cached device properties.
-		D3D_FEATURE_LEVEL	m_d3dFeatureLevel;
-		Size				m_d3dRenderTargetSize;
-		Size				m_outputSize;
-		Size				m_logicalSize;
-		DisplayOrientations	m_nativeOrientation;
-		DisplayOrientations	m_currentOrientation;
-		float				m_dpi;
-		bool				m_stereoEnabled;
-
-		// This is the DPI that will be reported back to the app. It takes into account whether the app supports high resolution screens or not.
-		float m_effectiveDpi;
+		D3D_FEATURE_LEVEL	m_d3dFeatureLevel;		//
+		DisplayOrientations	m_nativeOrientation;	//
+		DisplayOrientations	m_currentOrientation;	//
+		bool				m_stereoEnabled;		//
 
 		// Transforms used for display orientation.
 		D2D1::Matrix3x2F	m_orientationTransform2D;

@@ -3,39 +3,56 @@
 
 namespace Simulation
 {
-	// create a neutral atom with unit mass located at (0,0,0) that is sitting still
-	Atom::Atom() :
-		m_position({ 0.0f, 0.0f, 0.0f }),
-		m_velocity({ 0.0f, 0.0f, 0.0f }),
-		m_mass(1.0f),
-		m_numProtons(0),
-		m_positionUnits(LENGTH_UNIT::NANOMETER),
-		m_velocityUnits(VELOCITY_UNIT::NANOMETER_PER_SECOND),
-		m_massUnits(MASS_UNIT::PROTON_MASSES)
-	{
-	}
-
-	// Default units are in nano-X (except the mass units)
-	Atom::Atom(XMFLOAT3 position, XMFLOAT3 velocity, float mass, int numProtons) :
+	Atom::Atom(const std::shared_ptr<DX::DeviceResources>& deviceResources, Simulation::Element element, XMFLOAT3 position, XMFLOAT3 velocity) :
+		m_element(element),
 		m_position(position),
 		m_velocity(velocity),
-		m_mass(mass),
-		m_numProtons(numProtons),
-		m_positionUnits(LENGTH_UNIT::NANOMETER),
-		m_velocityUnits(VELOCITY_UNIT::NANOMETER_PER_SECOND),
-		m_massUnits(MASS_UNIT::PROTON_MASSES)
+		m_neutronCount(element),
+		m_radius(Constants::AtomicRadii[element])		
 	{
+		// Create the sphere mesh
+		m_sphereMesh = std::unique_ptr<SphereMesh>(new SphereMesh(deviceResources));
+
+		// Populate the electrons
+		for (int iii = 0; iii < element; ++iii)
+			m_electrons.push_back(std::shared_ptr<Electron>(new Electron()));
 	}
 
-	Atom::Atom(XMFLOAT3 position, LENGTH_UNIT positionUnits, XMFLOAT3 velocity, VELOCITY_UNIT velocityUnits, float mass, MASS_UNIT massUnits, int numProtons) :
+	Atom::Atom(const std::shared_ptr<DX::DeviceResources>& deviceResources, Simulation::Element element, XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount, int electronCount) :
+		m_element(element),
 		m_position(position),
 		m_velocity(velocity),
-		m_mass(mass),
-		m_numProtons(numProtons),
-		m_positionUnits(positionUnits),
-		m_velocityUnits(velocityUnits),
-		m_massUnits(massUnits)
+		m_neutronCount(neutronCount),
+		m_radius(Constants::AtomicRadii[element])
 	{
+		// Create the sphere mesh
+		m_sphereMesh = std::unique_ptr<SphereMesh>(new SphereMesh(deviceResources));
+
+		// Populate the electrons
+		for (int iii = 0; iii < electronCount; ++iii)
+			m_electrons.push_back(std::shared_ptr<Electron>(new Electron()));
 	}
+
+	Atom::Atom(const std::shared_ptr<DX::DeviceResources>& deviceResources, Simulation::Element element, XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount, int electronCount, float radius) :
+		m_element(element),
+		m_position(position),
+		m_velocity(velocity),
+		m_neutronCount(neutronCount),
+		m_radius(radius)
+	{
+		// Create the sphere mesh
+		m_sphereMesh = std::unique_ptr<SphereMesh>(new SphereMesh(deviceResources));
+
+		// Populate the electrons
+		for (int iii = 0; iii < electronCount; ++iii)
+			m_electrons.push_back(std::shared_ptr<Electron>(new Electron()));
+	}
+
+
+	void Atom::Render(XMMATRIX viewProjectionMatrix)
+	{
+		m_sphereMesh->Render(m_position, m_radius, viewProjectionMatrix);
+	}
+
 
 }

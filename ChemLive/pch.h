@@ -11,9 +11,11 @@
 #include "winrt/Windows.UI.Composition.h"
 #include "winrt/Windows.UI.Input.h"
 #include "winrt/Windows.UI.Xaml.Controls.h"
+#include "winrt/Windows.UI.ViewManagement.h"
 #include "winrt/Windows.Graphics.Display.h"
 #include "winrt/Windows.Storage.h"
 #include "winrt/Windows.Storage.Streams.h"
+#include "winrt/Windows.UI.WindowManagement.h"
 
 #include <wrl.h>
 #include <wrl/client.h>

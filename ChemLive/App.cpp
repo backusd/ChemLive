@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "DeviceResources.h"
 #include "Main.h"
+#include "Layout.h"
 #include <ppltasks.h>	// For create_task
 
 using winrt::Windows::ApplicationModel::SuspendingDeferral;
@@ -14,6 +15,7 @@ using winrt::Windows::Graphics::Display::DisplayInformation;
 using winrt::Windows::UI::Core::CoreCursor;
 using winrt::Windows::UI::Core::CoreCursorType;
 using winrt::Windows::UI::Core::CoreDispatcher;
+using winrt::Windows::UI::Core::CoreDispatcherPriority;
 using winrt::Windows::UI::Core::CoreProcessEventsOption;
 using winrt::Windows::UI::Core::CoreWindow;
 using winrt::Windows::UI::Core::CoreWindowEventArgs;
@@ -21,6 +23,12 @@ using winrt::Windows::UI::Core::PointerEventArgs;
 using winrt::Windows::UI::Core::VisibilityChangedEventArgs;
 using winrt::Windows::UI::Core::WindowActivatedEventArgs;
 using winrt::Windows::UI::Core::WindowSizeChangedEventArgs;
+
+using winrt::Windows::Foundation::IAsyncAction;
+using winrt::Windows::UI::ViewManagement::ApplicationView;
+using winrt::Windows::UI::ViewManagement::ApplicationViewSwitcher;
+
+using winrt::Windows::UI::WindowManagement::AppWindow;
 
 WINRT_EXPORT namespace ChemLive
 {
@@ -70,7 +78,7 @@ WINRT_EXPORT namespace ChemLive
             window.Activated({ this, &App::OnWindowActivationChanged });
             window.SizeChanged({ this, &App::OnWindowSizeChanged });
             window.VisibilityChanged({ this, &App::OnVisibilityChanged });
-            window.Closed({ this, &App::OnWindowClosed });
+            window.Closed({ this, &App::OnWindowClosed });            
 
             DisplayInformation displayInformation = DisplayInformation::GetForCurrentView();
 
@@ -80,10 +88,10 @@ WINRT_EXPORT namespace ChemLive
 
             DisplayInformation::DisplayContentsInvalidated({ this, &App::OnDisplayContentsInvalidated });
 
-            // At this point we have access to the device. 
-            // We can create the device-dependent resources.
-            // m_deviceResources = std::make_shared<DX::DeviceResources>();
-            m_deviceResources->SetWindow(CoreWindow::GetForCurrentThread());            
+            // Now that we have access to the CoreWindow, we can create the layout that
+            // will define the pane layout for the app
+            m_layout = std::shared_ptr<Layout>(new Layout(CoreWindow::GetForCurrentThread()));
+            m_deviceResources->SetLayout(m_layout);          
         }
 
         void Run()
@@ -132,8 +140,11 @@ WINRT_EXPORT namespace ChemLive
         }
         void OnWindowSizeChanged(CoreWindow sender, WindowSizeChangedEventArgs)
         {
-            m_deviceResources->SetLogicalSize(Size(sender.Bounds().Width, sender.Bounds().Height));
-            m_main->CreateWindowSizeDependentResources();
+            if (m_layout->WindowSizeChanged())
+            {
+                m_deviceResources->WindowSizeChanged();
+                m_main->CreateWindowSizeDependentResources();
+            }
         }
         void OnVisibilityChanged(CoreWindow, VisibilityChangedEventArgs args)
         {
@@ -153,8 +164,12 @@ WINRT_EXPORT namespace ChemLive
             // if it is being scaled for high resolution devices. Once the DPI is set on DeviceResources,
             // you should always retrieve it using the GetDpi method.
             // See DeviceResources.cpp for more details.
-            m_deviceResources->SetDpi(sender.LogicalDpi());
-            m_main->CreateWindowSizeDependentResources();
+
+            if (m_layout->DPI(sender.LogicalDpi()))
+            {
+                m_deviceResources->SetDpi(sender.LogicalDpi());
+                m_main->CreateWindowSizeDependentResources();
+            }
         }
         void OnStereoEnabledChanged(DisplayInformation sender, IInspectable const&)
         {
@@ -175,7 +190,10 @@ WINRT_EXPORT namespace ChemLive
         private:
             std::shared_ptr<DX::DeviceResources> m_deviceResources;
             std::unique_ptr<ChemLive::Main> m_main;
+            std::shared_ptr<ChemLive::Layout> m_layout;
     };
+
+    
 }
 
 int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)

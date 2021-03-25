@@ -1,8 +1,11 @@
 #pragma once
 
 #include "pch.h"
+#include "Constants.h"
 #include "Electron.h"
 #include "Enums.h"
+#include "SphereMesh.h"
+#include <vector>
 
 using DirectX::XMFLOAT3;
 
@@ -12,46 +15,55 @@ namespace Simulation
 	{
 	public:
 		// Constructors
-		Atom();
-		Atom(XMFLOAT3 position, XMFLOAT3 velocity, float mass, int numProtons);
-		Atom(XMFLOAT3 position, LENGTH_UNIT positionUnits, 
-			 XMFLOAT3 velocity, VELOCITY_UNIT velocityUnits,
-			 float mass,        MASS_UNIT massUnits,
-			 int numProtons);
+		Atom(const std::shared_ptr<DX::DeviceResources>& deviceResources,
+			Simulation::Element element,
+			XMFLOAT3 position, XMFLOAT3 velocity);
+
+		Atom(const std::shared_ptr<DX::DeviceResources>& deviceResources,
+			Simulation::Element element,
+			XMFLOAT3 position, XMFLOAT3 velocity,
+			int neutronCount, int electronCount);
+
+		// If you want to explicitly set the radius
+		Atom(const std::shared_ptr<DX::DeviceResources>& deviceResources,
+			Simulation::Element element,
+			XMFLOAT3 position, XMFLOAT3 velocity, 
+			int neutronCount, int electronCount,
+			float radius);
 
 		// Update
-		virtual void Update(double timeDelta, TIME_UNIT timeUnits, const std::vector<Atom*>& atoms, XMFLOAT3 boxDimensions, LENGTH_UNIT lengthUnits) = 0;
+		virtual void Update(double timeDelta, const std::vector<Atom*>& atoms, XMFLOAT3 boxDimensions) = 0;
 
-		// GET
-		XMFLOAT3 Position() {			return m_position; };
-		LENGTH_UNIT PositionUnits() {	return m_positionUnits; };
-		XMFLOAT3 Velocity() {			return m_velocity; };
-		VELOCITY_UNIT VelocityUnits() {	return m_velocityUnits; };
-		float Mass() {					return m_mass; };
-		MASS_UNIT MassUnits() {			return m_massUnits; };
-		int NumProtons() {				return m_numProtons; };
+		// Render
+		void Render(XMMATRIX viewProjectionMatrix);
+		XMMATRIX ModelMatrix() { return m_sphereMesh->ModelMatrix(); }
+		XMMATRIX TranslationMatrix() { return XMMatrixTranslation(m_position.x, m_position.y, m_position.z); }
 
-		// SET
-		void Position(XMFLOAT3 position) {					m_position = position; };
-		void PositionUnits(LENGTH_UNIT positionUnits) {		m_positionUnits = positionUnits; };
-		void Velocity(XMFLOAT3 velocity) {					m_velocity = velocity; };
-		void VelocityUnits(VELOCITY_UNIT velocityUnits) {	m_velocityUnits = velocityUnits; };
-		void Mass(float mass) {								m_mass = mass; };
-		void MassUnits(MASS_UNIT massUnits) {				m_massUnits = massUnits; };
-		void NumProtons(int numProtons) {					m_numProtons = numProtons; };
+		// Get
+		XMFLOAT3 Position() { return m_position; };
+		XMFLOAT3 Velocity() { return m_velocity; };
+		Simulation::Element Element() { return m_element; }
+		float Mass() { return static_cast<float>(m_element + m_neutronCount); }
+		int ProtonsCount() { return m_element; }
+		int NeutronsCount() { return m_neutronCount; }
+		int ElectronsCount() { return m_electrons.size(); }
+		float Radius() { return m_radius; }
+		int Charge() { return ProtonsCount() - ElectronsCount(); }
+
+		// Set
+		void Velocity(XMFLOAT3 velocity) { m_velocity = velocity; }
 
 	protected:
-
+		std::unique_ptr<SphereMesh> m_sphereMesh;
 
 		XMFLOAT3		m_position;
-		LENGTH_UNIT		m_positionUnits;
-
 		XMFLOAT3		m_velocity;
-		VELOCITY_UNIT	m_velocityUnits;
 
-		float			m_mass;
-		MASS_UNIT		m_massUnits;
+		Simulation::Element	                   m_element;
+		std::vector<std::shared_ptr<Electron>> m_electrons;
 
-		int				m_numProtons;
+		int				m_neutronCount;		
+
+		float			m_radius;
 	};
 }

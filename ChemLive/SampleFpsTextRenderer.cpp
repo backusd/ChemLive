@@ -72,7 +72,7 @@ namespace DirectX
 	void SampleFpsTextRenderer::Render()
 	{
 		ID2D1DeviceContext* context = m_deviceResources->GetD2DDeviceContext();
-		auto logicalSize = m_deviceResources->GetLogicalSize();
+		auto logicalSize = m_deviceResources->GetFullLogicalSize();
 
 		context->SaveDrawingState(m_stateBlock.get());
 		context->BeginDraw();

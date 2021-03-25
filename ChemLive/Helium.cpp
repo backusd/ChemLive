@@ -1,15 +1,15 @@
 #include "pch.h"
-#include "Hydrogen.h"
+#include "Helium.h"
 
 namespace Simulation
 {
-	Hydrogen::Hydrogen(const std::shared_ptr<DX::DeviceResources>& deviceResources, 
-		XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount = 0, int charge = 0) :
-			Atom(deviceResources, Element::HYDROGEN, position, velocity, neutronCount, Element::HYDROGEN - charge)
+	Helium::Helium(const std::shared_ptr<DX::DeviceResources>& deviceResources,
+		XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount = 2, int charge = 0) :
+		Atom(deviceResources, Element::HELIUM, position, velocity, neutronCount, Element::HELIUM - charge)
 	{
 	}
 
-	void Hydrogen::Update(double timeDelta, const std::vector<Atom*>& atoms, XMFLOAT3 boxDimensions)
+	void Helium::Update(double timeDelta, const std::vector<Atom*>& atoms, XMFLOAT3 boxDimensions)
 	{
 		// I will really want to create new data types: scientific_double and scientific_int
 		// This will allow me to get rid of TIME_UNIT, LENGTH_UNIT, and such
@@ -86,14 +86,11 @@ namespace Simulation
 
 		if ((m_position.z + m_radius) > (boxDimensions.z / 2.0f) || (m_position.z - m_radius) < -1 * (boxDimensions.z / 2.0f))
 			m_velocity.z *= -1;
-
 		*/
-
 
 		// Eventually, you need to implement real physics here
 		// ...
 		// ...
 	}
-
 
 }

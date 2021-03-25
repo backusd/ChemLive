@@ -4,22 +4,6 @@
 
 using winrt::Windows::Graphics::Display::DisplayInformation;
 
-namespace DisplayMetrics
-{
-	// High resolution displays can require a lot of GPU and battery power to render.
-	// High resolution phones, for example, may suffer from poor battery life if
-	// games attempt to render at 60 frames per second at full fidelity.
-	// The decision to render at full fidelity across all platforms and form factors
-	// should be deliberate.
-	static const bool SupportHighResolutions = false;
-
-	// The default thresholds that define a "high resolution" display. If the thresholds
-	// are exceeded and SupportHighResolutions is false, the dimensions will be scaled
-	// by 50%.
-	static const float DpiThreshold = 192.0f;		// 200% of standard desktop display.
-	static const float WidthThreshold = 1920.0f;	// 1080p width.
-	static const float HeightThreshold = 1080.0f;	// 1080p height.
-};
 
 // Constants used to calculate screen rotations
 namespace ScreenRotation
@@ -61,14 +45,10 @@ namespace ScreenRotation
 DX::DeviceResources::DeviceResources() :
 	m_screenViewport(),
 	m_d3dFeatureLevel(D3D_FEATURE_LEVEL_9_1),
-	m_d3dRenderTargetSize(),
-	m_outputSize(),
-	m_logicalSize(),
 	m_nativeOrientation(DisplayOrientations::None),
 	m_currentOrientation(DisplayOrientations::None),
-	m_dpi(-1.0f),
-	m_effectiveDpi(-1.0f),
-	m_deviceNotify(nullptr)
+	m_deviceNotify(nullptr),
+	m_layout(nullptr)
 {
 	CreateDeviceIndependentResources();
 	CreateDeviceResources();
@@ -219,24 +199,19 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 	m_d3dDepthStencilView = nullptr;
 	m_d3dContext->Flush1(D3D11_CONTEXT_TYPE_ALL, nullptr);
 
-	UpdateRenderTargetSize();
-
 	// The width and height of the swap chain must be based on the window's
 	// natively-oriented width and height. If the window is not in the native
 	// orientation, the dimensions must be reversed.
 	DXGI_MODE_ROTATION displayRotation = ComputeDisplayRotation();
-
-	bool swapDimensions = displayRotation == DXGI_MODE_ROTATION_ROTATE90 || displayRotation == DXGI_MODE_ROTATION_ROTATE270;
-	m_d3dRenderTargetSize.Width = swapDimensions ? m_outputSize.Height : m_outputSize.Width;
-	m_d3dRenderTargetSize.Height = swapDimensions ? m_outputSize.Width : m_outputSize.Height;
+	m_layout->UpdateLayout(displayRotation);
 
 	if (m_swapChain.get() != nullptr)
 	{
 		// If the swap chain already exists, resize it.
 		HRESULT hr = m_swapChain->ResizeBuffers(
 			2, // Double-buffered swap chain.
-			lround(m_d3dRenderTargetSize.Width),
-			lround(m_d3dRenderTargetSize.Height),
+			lround(m_layout->FullWindowWidthPixels()),
+			lround(m_layout->FullWindowHeightPixels()),
 			DXGI_FORMAT_B8G8R8A8_UNORM,
 			0
 		);
@@ -257,12 +232,12 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 	}
 	else
 	{
-		// Otherwise, create a new one using the same adapter as the existing Direct3D device.
-		DXGI_SCALING scaling = DisplayMetrics::SupportHighResolutions ? DXGI_SCALING_NONE : DXGI_SCALING_STRETCH;
+		// Otherwise, create a new one using the same adapter as the existing Direct3D device.			
+		DXGI_SCALING scaling = m_layout->SupportHighResolutions() ? DXGI_SCALING_NONE : DXGI_SCALING_STRETCH;		
+		
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = { 0 };
-
-		swapChainDesc.Width = lround(m_d3dRenderTargetSize.Width);		// Match the size of the window.
-		swapChainDesc.Height = lround(m_d3dRenderTargetSize.Height);
+		swapChainDesc.Width = lround(m_layout->FullWindowWidthPixels());		// Match the size of the window.
+		swapChainDesc.Height = lround(m_layout->FullWindowHeightPixels());
 		swapChainDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;				// This is the most common swap chain format.
 		swapChainDesc.Stereo = false;
 		swapChainDesc.SampleDesc.Count = 1;								// Don't use multi-sampling.
@@ -292,7 +267,7 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 		DX::ThrowIfFailed(
 			dxgiFactory->CreateSwapChainForCoreWindow(
 				m_d3dDevice.get(),
-				winrt::get_unknown(m_window.get()),
+				winrt::get_unknown(m_layout->GetCoreWindow()),
 				&swapChainDesc,
 				nullptr,
 				swapChain.put()
@@ -312,7 +287,6 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 	// Note the rotation angle for the 2D and 3D transforms are different.
 	// This is due to the difference in coordinate spaces.  Additionally,
 	// the 3D matrix is specified explicitly to avoid rounding errors.
-
 	switch (displayRotation)
 	{
 	case DXGI_MODE_ROTATION_IDENTITY:
@@ -323,21 +297,21 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 	case DXGI_MODE_ROTATION_ROTATE90:
 		m_orientationTransform2D =
 			D2D1::Matrix3x2F::Rotation(90.0f) *
-			D2D1::Matrix3x2F::Translation(m_logicalSize.Height, 0.0f);
+			D2D1::Matrix3x2F::Translation(m_layout->FullWindowHeightDIPS(), 0.0f);
 		m_orientationTransform3D = ScreenRotation::Rotation270;
 		break;
 
 	case DXGI_MODE_ROTATION_ROTATE180:
 		m_orientationTransform2D =
 			D2D1::Matrix3x2F::Rotation(180.0f) *
-			D2D1::Matrix3x2F::Translation(m_logicalSize.Width, m_logicalSize.Height);
+			D2D1::Matrix3x2F::Translation(m_layout->FullWindowWidthDIPS(), m_layout->FullWindowHeightDIPS());
 		m_orientationTransform3D = ScreenRotation::Rotation180;
 		break;
 
 	case DXGI_MODE_ROTATION_ROTATE270:
 		m_orientationTransform2D =
 			D2D1::Matrix3x2F::Rotation(270.0f) *
-			D2D1::Matrix3x2F::Translation(0.0f, m_logicalSize.Width);
+			D2D1::Matrix3x2F::Translation(0.0f, m_layout->FullWindowWidthDIPS());
 		m_orientationTransform3D = ScreenRotation::Rotation90;
 		break;
 
@@ -363,11 +337,11 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 		)
 	);
 
-	// Create a depth stencil view for use with 3D rendering if needed.
+	// Create a depth stencil view for use with 3D rendering if needed.	
 	CD3D11_TEXTURE2D_DESC1 depthStencilDesc(
 		DXGI_FORMAT_D24_UNORM_S8_UINT,
-		lround(m_d3dRenderTargetSize.Width),
-		lround(m_d3dRenderTargetSize.Height),
+		lround(m_layout->FullWindowWidthPixels()),
+		lround(m_layout->FullWindowHeightPixels()),
 		1, // This depth stencil view has only one texture.
 		1, // Use a single mipmap level.
 		D3D11_BIND_DEPTH_STENCIL
@@ -393,10 +367,10 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 
 	// Set the 3D rendering viewport to target the entire window.
 	m_screenViewport = CD3D11_VIEWPORT(
-		0.0f,
-		0.0f,
-		m_d3dRenderTargetSize.Width,
-		m_d3dRenderTargetSize.Height
+		m_layout->RenderPaneLeftPixels(),
+		m_layout->RenderPaneTopPixels(),
+		m_layout->RenderPaneWidthPixels(),
+		m_layout->RenderPaneHeightPixels()
 	);
 
 	m_d3dContext->RSSetViewports(1, &m_screenViewport);
@@ -424,8 +398,8 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 		D2D1::BitmapProperties1(
 			D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
 			D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED),
-			m_dpi,
-			m_dpi
+			m_layout->DPI(),
+			m_layout->DPI()
 		);
 
 	winrt::com_ptr<IDXGISurface2> dxgiBackBuffer;
@@ -442,82 +416,43 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 	);
 
 	m_d2dContext->SetTarget(m_d2dTargetBitmap.get());
-	m_d2dContext->SetDpi(m_effectiveDpi, m_effectiveDpi);
+
+	m_d2dContext->SetDpi(m_layout->DPI(), m_layout->DPI());
 
 	// Grayscale text anti-aliasing is recommended for all Windows Store apps.
 	m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
 }
 
-// Determine the dimensions of the render target and whether it will be scaled down.
-void DX::DeviceResources::UpdateRenderTargetSize()
-{
-	m_effectiveDpi = m_dpi;
-
-	// To improve battery life on high resolution devices, render to a smaller render target
-	// and allow the GPU to scale the output when it is presented.
-	if (!DisplayMetrics::SupportHighResolutions && m_dpi > DisplayMetrics::DpiThreshold)
-	{
-		float width = DX::ConvertDipsToPixels(m_logicalSize.Width, m_dpi);
-		float height = DX::ConvertDipsToPixels(m_logicalSize.Height, m_dpi);
-
-		// When the device is in portrait orientation, height > width. Compare the
-		// larger dimension against the width threshold and the smaller dimension
-		// against the height threshold.
-		if (max(width, height) > DisplayMetrics::WidthThreshold && min(width, height) > DisplayMetrics::HeightThreshold)
-		{
-			// To scale the app we change the effective DPI. Logical size does not change.
-			m_effectiveDpi /= 2.0f;
-		}
-	}
-
-	// Calculate the necessary render target size in pixels.
-	m_outputSize.Width = DX::ConvertDipsToPixels(m_logicalSize.Width, m_effectiveDpi);
-	m_outputSize.Height = DX::ConvertDipsToPixels(m_logicalSize.Height, m_effectiveDpi);
-
-	// Prevent zero size DirectX content from being created.
-	m_outputSize.Width = max(m_outputSize.Width, 1);
-	m_outputSize.Height = max(m_outputSize.Height, 1);
-}
-
 // This method is called when the CoreWindow is created (or re-created).
-void DX::DeviceResources::SetWindow(CoreWindow const& window)
+void DX::DeviceResources::SetLayout(std::shared_ptr<ChemLive::Layout> layout)
 {
-	DisplayInformation currentDisplayInformation = DisplayInformation::GetForCurrentView();
+	m_layout = layout;
 
-	m_window = window;
-	m_logicalSize = winrt::Windows::Foundation::Size(window.Bounds().Width, window.Bounds().Height);
+	// Layout does not control the orientation - so still need to manually set it here
+	DisplayInformation currentDisplayInformation = DisplayInformation::GetForCurrentView();
 	m_nativeOrientation = currentDisplayInformation.NativeOrientation();
 	m_currentOrientation = currentDisplayInformation.CurrentOrientation();
-	m_dpi = currentDisplayInformation.LogicalDpi();
-	m_d2dContext->SetDpi(m_dpi, m_dpi);
+
+	m_d2dContext->SetDpi(m_layout->DPI(), m_layout->DPI());
 
 	CreateWindowSizeDependentResources();
 }
 
 // This method is called in the event handler for the SizeChanged event.
-void DX::DeviceResources::SetLogicalSize(Size const& logicalSize)
+// It MUST be called AFTER layout->WindowSizeChanged() because CreateWindowSizeDependentResources
+// will assume the layout is up to date
+void DX::DeviceResources::WindowSizeChanged()
 {
-	if (m_logicalSize.Height != logicalSize.Height || m_logicalSize.Width != logicalSize.Width)
-	{
-		m_logicalSize = logicalSize;
-		CreateWindowSizeDependentResources();
-	}
+	CreateWindowSizeDependentResources();
 }
 
 // This method is called in the event handler for the DpiChanged event.
 void DX::DeviceResources::SetDpi(float dpi)
 {
-	if (dpi != m_dpi)
-	{
-		m_dpi = dpi;
-
-		// When the display DPI changes, the logical size of the window (measured in Dips) also changes and needs to be updated.
-		m_logicalSize = winrt::Windows::Foundation::Size(m_window.get().Bounds().Width, m_window.get().Bounds().Height);
-
-		m_d2dContext->SetDpi(m_dpi, m_dpi);
-		CreateWindowSizeDependentResources();
-	}
+	m_d2dContext->SetDpi(dpi, dpi);
+	CreateWindowSizeDependentResources();
 }
+
 
 // This method is called in the event handler for the OrientationChanged event.
 void DX::DeviceResources::SetCurrentOrientation(DisplayOrientations const& currentOrientation)
@@ -592,7 +527,9 @@ void DX::DeviceResources::HandleDeviceLost()
 	}
 
 	CreateDeviceResources();
-	m_d2dContext->SetDpi(m_dpi, m_dpi);
+
+	m_d2dContext->SetDpi(m_layout->DPI(), m_layout->DPI());
+
 	CreateWindowSizeDependentResources();
 
 	if (m_deviceNotify != nullptr)

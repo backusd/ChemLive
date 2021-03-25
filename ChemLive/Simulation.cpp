@@ -4,34 +4,54 @@
 
 namespace Simulation
 {
-	Simulation::Simulation(const std::shared_ptr<DX::DeviceResources>& deviceResources) : 
-		m_boxDimensions({ 10.0f, 10.0f, 10.0f }),		// Thes are the overall dimensions - so the x range is [-5, 5]
-		m_boxDimensionUnits(LENGTH_UNIT::NANOMETER),
+	Simulation::Simulation(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
+		m_boxDimensions({ 2.0f, 2.0f, 2.0f }),		// These are the overall dimensions - so the x range is [-5, 5]
 		m_boxVisible(true),
 		m_elapsedTime(0.0f),
-		m_elapsedTimeUnit(TIME_UNIT::SECOND),
-		m_paused(true)
+		m_paused(true),
+		m_atomGenerator(AtomGenerator(deviceResources))
 	{
-		m_simulationRenderer = std::unique_ptr<SimulationRenderer>(new SimulationRenderer(deviceResources, m_boxDimensions));
 
 		// TEMPORARY SETUP ===================================
+
+		
 		XMFLOAT3 initPos = XMFLOAT3(0.0f, 0.0f, 0.0f);
-		XMFLOAT3 initVelocity = XMFLOAT3(1.5f, 0.0f, 0.0f);
-		m_atoms.push_back(new Hydrogen(initPos, initVelocity));
-
-		initPos = XMFLOAT3(-3.0f, 0.0f, 0.0f);
-		initVelocity = XMFLOAT3(-1.0f, 0.0f, 0.0f);
-		m_atoms.push_back(new Hydrogen(initPos, initVelocity));
-
-		initPos = XMFLOAT3(0.0f, 2.0f, 0.0f);
-		initVelocity = XMFLOAT3(1.0f, 1.0f, 0.0f);
-		m_atoms.push_back(new Hydrogen(initPos, initVelocity));
-
+		XMFLOAT3 initVelocity = XMFLOAT3(-1.0f, 0.0f, 0.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::HYDROGEN, initPos, initVelocity, 0));
+		
+		
+		initPos = XMFLOAT3(0.0f, 0.75f, 0.0f);
+		initVelocity = XMFLOAT3(1.0f, -1.0f, 0.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::HELIUM, initPos, initVelocity, 2));
+		
+		
+		initPos = XMFLOAT3(0.5f, 0.0f, 0.0f);
+		initVelocity = XMFLOAT3(-1.0f, 1.0f, 0.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::HYDROGEN, initPos, initVelocity, 0));		
+		
 		m_paused = false;
 	}
 
-	void Simulation::AddAtom()
+	void Simulation::AddAtom(Atom* atom)
 	{
+		// We need to make sure that the atoms are sorted by element type
+		// So insert the new atom in the first spot after all of the elements with smaller
+		// element numbers
+
+		// Get the first index where the current element is greater than or equal to the new atom
+		unsigned int index;
+		for (index = 0; index < m_atoms.size(); ++index)
+		{
+			if (m_atoms[index]->Element() >= atom->Element())
+				break;
+		}
+
+		// if we got to the end, just add the new atom
+		// else, insert it at the appropriate spot in the vector
+		if (index == m_atoms.size())
+			m_atoms.push_back(atom);
+		else
+			m_atoms.insert(m_atoms.begin() + index, atom);
 
 	}
 	void Simulation::RemoveAtom()
@@ -67,7 +87,7 @@ namespace Simulation
 
 	}
 
-	void Simulation::UpdateSimulation(DX::StepTimer const& timer)
+	void Simulation::Update(DX::StepTimer const& timer)
 	{
 		/* This function could be made HIGHLY parallel,
 		* and should probably even execute on the GPU
@@ -75,6 +95,11 @@ namespace Simulation
 
 		if (!m_paused)
 		{
+			// if the elapsed time is -1, then the simulation was just unpaused
+			// and we need to refresh the time
+			if (m_elapsedTime == -1.0f)
+				m_elapsedTime = timer.GetTotalSeconds();
+
 			double currentTime = timer.GetTotalSeconds();
 			double timeDelta = currentTime - m_elapsedTime;
 
@@ -85,7 +110,7 @@ namespace Simulation
 			// once all atoms have been updated
 
 			for (Atom* atom : m_atoms)
-				atom->Update(timeDelta, m_elapsedTimeUnit, m_atoms, m_boxDimensions, m_boxDimensionUnits);
+				atom->Update(timeDelta, m_atoms, m_boxDimensions);
 
 			// The update procedure currently only updates position and takes account of the simulation wall
 			// Here, we need to make updates to account for elastic collisions with other atoms
@@ -111,7 +136,7 @@ namespace Simulation
 					d.z = m_atoms[iii]->Position().z - m_atoms[jjj]->Position().z;
 
 					mag = std::sqrt(d.x * d.x + d.y * d.y + d.z * d.z);
-					if (mag < 2.0) // assume radius for each atom is 1
+					if (mag < m_atoms[iii]->Radius() + m_atoms[jjj]->Radius()) // assume radius for each atom is 1
 					{
 						// compute a normalized normal vector between the atoms
 						n.x = d.x / mag;
@@ -144,17 +169,7 @@ namespace Simulation
 			}
 
 			m_elapsedTime = currentTime;
-		}
-	}
 
-	void Simulation::BoxDimensions(XMFLOAT3 dim)
-	{
-		if (m_boxDimensions.x != dim.x ||
-			m_boxDimensions.y != dim.y ||
-			m_boxDimensions.z != dim.z)
-		{
-			m_boxDimensions = dim;
-			m_simulationRenderer->UpdateBoxDimensions(m_boxDimensions);
 		}
 	}
 }

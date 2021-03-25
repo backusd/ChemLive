@@ -109,22 +109,36 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Atom.h" />
+    <ClInclude Include="AtomGenerator.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonClickEventArgs.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="DeviceResources.h" />
     <ClInclude Include="DirectXHelper.h" />
     <ClInclude Include="Electron.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="EventArgs.h" />
+    <ClInclude Include="FontFamilyHelper.h" />
+    <ClInclude Include="Helium.h" />
     <ClInclude Include="HLSLStructures.h" />
     <ClInclude Include="Hydrogen.h" />
+    <ClInclude Include="Control.h" />
+    <ClInclude Include="Layout.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="MoveLookController.h" />
+    <ClInclude Include="Pane.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Sample3DSceneRenderer.h" />
     <ClInclude Include="SampleFpsTextRenderer.h" />
     <ClInclude Include="ShaderStructures.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="SimulationRenderer.h" />
+    <ClInclude Include="Slider.h" />
+    <ClInclude Include="SphereMesh.h" />
     <ClInclude Include="SphereRenderer.h" />
     <ClInclude Include="StepTimer.h" />
+    <ClInclude Include="TextBox.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -143,11 +157,21 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Atom.cpp" />
+    <ClCompile Include="AtomGenerator.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonClickEventArgs.cpp" />
     <ClCompile Include="DeviceResources.cpp" />
     <ClCompile Include="Electron.cpp" />
+    <ClCompile Include="EventArgs.cpp" />
+    <ClCompile Include="FontFamilyHelper.cpp" />
+    <ClCompile Include="Helium.cpp" />
     <ClCompile Include="Hydrogen.cpp" />
+    <ClCompile Include="Control.cpp" />
+    <ClCompile Include="Layout.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MoveLookController.cpp" />
+    <ClCompile Include="Pane.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -155,7 +179,10 @@
     <ClCompile Include="SampleFpsTextRenderer.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="SimulationRenderer.cpp" />
+    <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="SphereMesh.cpp" />
     <ClCompile Include="SphereRenderer.cpp" />
+    <ClCompile Include="TextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -165,6 +192,28 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="MyPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="MyVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="SamplePixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Pixel</ShaderType>
@@ -176,26 +225,6 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="SampleVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="SimulationPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="SimulationVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>

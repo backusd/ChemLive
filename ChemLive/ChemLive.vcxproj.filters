@@ -34,6 +34,45 @@
     <ClCompile Include="Electron.cpp">
       <Filter>Simulation\Particles</Filter>
     </ClCompile>
+    <ClCompile Include="Layout.cpp">
+      <Filter>Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="Pane.cpp">
+      <Filter>Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Control.cpp">
+      <Filter>Menu\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBox.cpp">
+      <Filter>Menu\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="FontFamilyHelper.cpp">
+      <Filter>Menu\Controls\HelperClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Menu\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonClickEventArgs.cpp">
+      <Filter>Menu\Controls\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventArgs.cpp">
+      <Filter>Menu\Controls\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Menu\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereMesh.cpp">
+      <Filter>Simulation\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Helium.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="AtomGenerator.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -82,6 +121,48 @@
     </ClInclude>
     <ClInclude Include="Electron.h">
       <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Layout.h">
+      <Filter>Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="Pane.h">
+      <Filter>Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Control.h">
+      <Filter>Menu\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>Menu\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="FontFamilyHelper.h">
+      <Filter>Menu\Controls\HelperClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Menu\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonClickEventArgs.h">
+      <Filter>Menu\Controls\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventArgs.h">
+      <Filter>Menu\Controls\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Menu\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereMesh.h">
+      <Filter>Simulation\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Helium.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="AtomGenerator.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Simulation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +216,24 @@
     <Filter Include="Simulation\Particles">
       <UniqueIdentifier>{e63de2e4-64cf-44e3-a39c-972994ecb8cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Layout">
+      <UniqueIdentifier>{27b3b9f8-fb5f-492c-8fa2-428ff7376aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{d5ed07ef-c127-4b3a-9748-4ae952fc3892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu\Controls">
+      <UniqueIdentifier>{3ef7d1aa-42bf-4c22-a7dd-49f2ddda9925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu\Controls\HelperClasses">
+      <UniqueIdentifier>{92a8b550-5e63-4614-a89a-a952f8ee38d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu\Controls\Events">
+      <UniqueIdentifier>{35cf9f95-84b4-425a-a7ea-58fea1fc6c77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Meshes">
+      <UniqueIdentifier>{e9655a18-ad0a-408f-9177-0499f8dd3878}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -156,10 +255,10 @@
     <FxCompile Include="SpherePixelShader.hlsl">
       <Filter>Sphere</Filter>
     </FxCompile>
-    <FxCompile Include="SimulationVertexShader.hlsl">
+    <FxCompile Include="MyVertexShader.hlsl">
       <Filter>Simulation\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="SimulationPixelShader.hlsl">
+    <FxCompile Include="MyPixelShader.hlsl">
       <Filter>Simulation\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

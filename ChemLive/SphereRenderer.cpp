@@ -22,7 +22,7 @@ namespace DirectX
 	// Initializes view parameters when the window size changes.
 	void SphereRenderer::CreateWindowSizeDependentResources()
 	{
-		auto outputSize = m_deviceResources->GetOutputSize();
+		auto outputSize = m_deviceResources->GetRenderPaneOutputSize();
 		float aspectRatio = outputSize.Width / outputSize.Height;
 		float fovAngleY = 70.0f * XM_PI / 180.0f;
 
