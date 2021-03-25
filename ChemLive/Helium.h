@@ -12,7 +12,7 @@ namespace Simulation
 	{
 	public:
 		// Constructors
-		Helium(const std::shared_ptr<DX::DeviceResources>& deviceResources, XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount, int charge);
+		Helium(const std::shared_ptr<DX::DeviceResources>& deviceResources, XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount = 2, int charge = 0);
 
 		// Update
 		void Update(double timeDelta, const std::vector<Atom*>& atoms, XMFLOAT3 boxDimensions);

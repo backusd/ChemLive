@@ -8,11 +8,13 @@ using DirectX::XMFLOAT3;
 
 namespace Simulation
 {
-	class Hydrogen : public Atom
+	class Beryllium : public Atom
 	{
 	public:
 		// Constructors
-		Hydrogen(const std::shared_ptr<DX::DeviceResources>& deviceResources, XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount = 0, int charge = 1);
+		// Most common isotope = Beryllium-9
+		// Most common charge  = +2
+		Beryllium(const std::shared_ptr<DX::DeviceResources>& deviceResources, XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount = 5, int charge = 2);
 
 		// Update
 		void Update(double timeDelta, const std::vector<Atom*>& atoms, XMFLOAT3 boxDimensions);

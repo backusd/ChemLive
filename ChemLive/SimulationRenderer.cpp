@@ -118,17 +118,17 @@ namespace Simulation
 
 		m_materialProperties.push_back(beryllium);
 
-		MaterialProperties* aluminum = new MaterialProperties();
-		aluminum->Material.Emissive = XMFLOAT4(0.45f, 0.22f, 0.22f, 1.0f);
-		aluminum->Material.Ambient = XMFLOAT4(1.0f, 0.45f, 0.45f, 1.0f);
-		aluminum->Material.Diffuse = XMFLOAT4(1.0f, 0.8f, 0.8f, 1.0f);
-		aluminum->Material.Specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-		aluminum->Material.SpecularPower = 6.0f;
+		MaterialProperties* boron = new MaterialProperties();
+		boron->Material.Emissive = XMFLOAT4(0.45f, 0.22f, 0.22f, 1.0f);
+		boron->Material.Ambient = XMFLOAT4(1.0f, 0.45f, 0.45f, 1.0f);
+		boron->Material.Diffuse = XMFLOAT4(1.0f, 0.8f, 0.8f, 1.0f);
+		boron->Material.Specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+		boron->Material.SpecularPower = 6.0f;
 
-		m_materialProperties.push_back(aluminum);
+		m_materialProperties.push_back(boron);
 
 		MaterialProperties* carbon = new MaterialProperties();
-		carbon->Material.Emissive = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+		carbon->Material.Emissive = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
 		carbon->Material.Ambient = XMFLOAT4(0.12f, 0.12f, 0.12f, 1.0f);
 		carbon->Material.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 		carbon->Material.Specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);

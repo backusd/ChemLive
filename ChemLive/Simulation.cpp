@@ -17,18 +17,48 @@ namespace Simulation
 		
 		XMFLOAT3 initPos = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		XMFLOAT3 initVelocity = XMFLOAT3(-1.0f, 0.0f, 0.0f);
-		AddAtom(m_atomGenerator.CreateAtom(Element::HYDROGEN, initPos, initVelocity, 0));
-		
+		AddAtom(m_atomGenerator.CreateAtom(Element::HYDROGEN, initPos, initVelocity));		
 		
 		initPos = XMFLOAT3(0.0f, 0.75f, 0.0f);
 		initVelocity = XMFLOAT3(1.0f, -1.0f, 0.0f);
-		AddAtom(m_atomGenerator.CreateAtom(Element::HELIUM, initPos, initVelocity, 2));
-		
+		AddAtom(m_atomGenerator.CreateAtom(Element::HELIUM, initPos, initVelocity));		
 		
 		initPos = XMFLOAT3(0.5f, 0.0f, 0.0f);
 		initVelocity = XMFLOAT3(-1.0f, 1.0f, 0.0f);
-		AddAtom(m_atomGenerator.CreateAtom(Element::HYDROGEN, initPos, initVelocity, 0));		
+		AddAtom(m_atomGenerator.CreateAtom(Element::HYDROGEN, initPos, initVelocity));	
+
+		initPos = XMFLOAT3(0.5f, 0.5f, 0.0f);
+		initVelocity = XMFLOAT3(-1.0f, 1.0f, 0.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::LITHIUM, initPos, initVelocity));
+
+		initPos = XMFLOAT3(0.5f, 0.5f, 0.5f);
+		initVelocity = XMFLOAT3(-1.0f, 1.0f, 1.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::BERYLLIUM, initPos, initVelocity));
+
+		initPos = XMFLOAT3(0.0f, 0.0f, 0.5f);
+		initVelocity = XMFLOAT3(0.0f, 1.0f, 1.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::BORON, initPos, initVelocity));
+
+		initPos = XMFLOAT3(0.5f, 0.0f, 0.5f);
+		initVelocity = XMFLOAT3(1.0f, 1.0f, 0.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::CARBON, initPos, initVelocity));
+
+		initPos = XMFLOAT3(0.5f, 0.5f, 0.8f);
+		initVelocity = XMFLOAT3(1.0f, 0.5f, 1.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::NITROGEN, initPos, initVelocity));
+
+		initPos = XMFLOAT3(0.7f, 0.3f, 0.1f);
+		initVelocity = XMFLOAT3(0.0f, 0.5f, 1.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::OXYGEN, initPos, initVelocity));
+
+		initPos = XMFLOAT3(0.2f, 0.6f, 0.7f);
+		initVelocity = XMFLOAT3(0.0f, 0.5f, 1.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::FLOURINE, initPos, initVelocity));
 		
+		initPos = XMFLOAT3(-0.7f, 0.2f, 0.7f);
+		initVelocity = XMFLOAT3(-1.0f, 0.5f, 1.0f);
+		AddAtom(m_atomGenerator.CreateAtom(Element::NEON, initPos, initVelocity));
+
 		m_paused = false;
 	}
 

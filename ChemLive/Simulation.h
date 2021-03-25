@@ -1,13 +1,11 @@
 #pragma once
 
 #include "pch.h"
-#include "Atom.h"
 #include "DeviceResources.h"
 #include "Enums.h"
-#include "Hydrogen.h"
-#include "Helium.h"
 #include "SimulationRenderer.h"
 #include "AtomGenerator.h"
+#include "Elements.h"			// <-- includes header files for all elements
 
 
 /* 

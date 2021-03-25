@@ -73,6 +73,30 @@
     <ClCompile Include="AtomGenerator.cpp">
       <Filter>Simulation</Filter>
     </ClCompile>
+    <ClCompile Include="Lithium.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Beryllium.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Boron.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Carbon.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Nitrogen.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Oxygen.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Flourine.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Neon.cpp">
+      <Filter>Simulation\Particles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -163,6 +187,33 @@
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Lithium.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Elements.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Beryllium.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Boron.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Carbon.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Nitrogen.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Oxygen.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Flourine.h">
+      <Filter>Simulation\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Neon.h">
+      <Filter>Simulation\Particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

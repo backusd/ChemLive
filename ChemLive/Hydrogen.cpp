@@ -4,7 +4,7 @@
 namespace Simulation
 {
 	Hydrogen::Hydrogen(const std::shared_ptr<DX::DeviceResources>& deviceResources, 
-		XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount = 0, int charge = 0) :
+		XMFLOAT3 position, XMFLOAT3 velocity, int neutronCount, int charge) :
 			Atom(deviceResources, Element::HYDROGEN, position, velocity, neutronCount, Element::HYDROGEN - charge)
 	{
 	}
