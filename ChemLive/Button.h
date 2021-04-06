@@ -35,11 +35,12 @@ namespace ChemLive
 		void UpdateOnPointerHover();
 		void UpdateOnPointerDown();
 		void Finalize();
+		void PointerNotOver();
 
 		bool OnPointerPressed(CoreWindow w, PointerEventArgs const& e);
 		void OnPointerMoved(CoreWindow w, PointerEventArgs const& e);
 		void OnPointerReleased(CoreWindow w, PointerEventArgs const& e);
-		void PointerNotOver();
+		
 
 		// Add Content control
 		void AddControl(winrt::com_ptr<Control> control) { m_content.push_back(control); }

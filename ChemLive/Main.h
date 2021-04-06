@@ -19,6 +19,7 @@ using winrt::Windows::UI::Core::CoreWindow;
 using winrt::Windows::UI::Core::CoreWindowActivationState;
 using winrt::Windows::UI::Core::PointerEventArgs;
 
+
 namespace ChemLive
 {
 	class Main : public DX::IDeviceNotify
@@ -91,6 +92,7 @@ namespace ChemLive
 		// 2D Menu
 		std::unique_ptr<Menu> m_menu;
 		std::unique_ptr<Menu> m_menuBar;
+		std::unique_ptr<Menu> m_titleBar;
 
 		// Move/Look Controller
 		std::shared_ptr<MoveLookController> m_moveLookController;

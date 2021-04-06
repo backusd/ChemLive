@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Layout.h"
 
+using winrt::Windows::UI::ViewManagement::ApplicationView;
+using winrt::Windows::UI::ViewManagement::ApplicationViewTitleBar;
+using winrt::Windows::ApplicationModel::Core::CoreApplication;
 
 namespace DisplayMetrics
 {
@@ -25,6 +28,7 @@ namespace ChemLive
 		m_renderPane(nullptr),
 		m_menuPane(nullptr),
 		m_menuBarPane(nullptr),
+		m_titleBarPane(nullptr),
 		m_window(window)
 	{
 		this->UpdateLayout(window);
@@ -52,49 +56,71 @@ namespace ChemLive
 		}
 	}
 
+	void Layout::UpdateLayout()
+	{
+		UpdatePanes(m_window.get().Bounds().Width, m_window.get().Bounds().Height);
+	}
+
 	void Layout::UpdatePanes(float windowWidthDIPS, float windowHeightDIPS)
 	{
-		if (m_renderPane == nullptr)  m_renderPane  = std::unique_ptr<Pane>(new Pane());
-		if (m_menuPane == nullptr)    m_menuPane    = std::unique_ptr<Pane>(new Pane());
-		if (m_menuBarPane == nullptr) m_menuBarPane = std::unique_ptr<Pane>(new Pane());
+		if (m_renderPane == nullptr)   m_renderPane  = std::unique_ptr<Pane>(new Pane());
+		if (m_menuPane == nullptr)     m_menuPane    = std::unique_ptr<Pane>(new Pane());
+		if (m_menuBarPane == nullptr)  m_menuBarPane = std::unique_ptr<Pane>(new Pane());
+		if (m_titleBarPane == nullptr) m_titleBarPane = std::unique_ptr<Pane>(new Pane());
 
 		// prevent 0 width/height sizing
 		windowWidthDIPS = max(windowWidthDIPS, 1);
 		windowHeightDIPS = max(windowHeightDIPS, 1);
 
 		// Store the DIPS values in the Panes
-		// MenuBarPane
-		//		Top    = 0
+		// TitleBarPane
+		//		Top	   = 0
 		//      Left   = 0
-		//      Height = 20
+		//      Height = Title Bar Height
+		//		Width  = Window Width
+		// MenuBarPane
+		//		Top    = Title Bar Height
+		//      Left   = 0
+		//      Height = 50
 		//      Width  = Window Width
 		// MenuPane
-		//		Top    = 20
+		//		Top    = MenuBarPane.Top + MenuBarPane.Height
 		//		Left   = Window Width - Menu Pane Width
-		//		Height = Window Height - 20
+		//		Height = Window Height - this.Top
 		//		Width  = IF Window Width < 200 -> 0 (Collapsed) ELSE Greater of: 25% Window Width / 100 pixels
 		// RenderPane
-		//		Top    = 20
+		//		Top    = MenuBarPane.Top + MenuBarPane.Height
 		//		Left   = 0
-		//		Height = Window Height -20
+		//		Height = Window Height - this.Top
 		//		Width  = Window Width - Menu Pane Width
 
-		float menuBarPaneHeight = 20.0f;
+		float menuBarPaneHeight = 50.0f;
 		float menuPaneWidth = (windowWidthDIPS < 200.0f) ? 0.0f : max(0.25f * windowWidthDIPS, 100.0f);
 
-		m_menuBarPane->Top(0.0f);
+		float titleBarHeight = CoreApplication::GetCurrentView().TitleBar().Height();
+		
+		// During App initialization, the title bar is not displayed yet, so set this to 32.0f which should be the correct height
+		if (titleBarHeight == 0.0f)
+			titleBarHeight = 32.0f;
+
+		m_titleBarPane->Top(0.0f);
+		m_titleBarPane->Left(0.0f);
+		m_titleBarPane->Height(titleBarHeight);
+		m_titleBarPane->Width(windowWidthDIPS);
+
+		m_menuBarPane->Top(titleBarHeight);
 		m_menuBarPane->Left(0.0f);
 		m_menuBarPane->Height(menuBarPaneHeight);
 		m_menuBarPane->Width(windowWidthDIPS);
 
-		m_menuPane->Top(menuBarPaneHeight);
+		m_menuPane->Top(m_menuBarPane->Bottom());
 		m_menuPane->Left(windowWidthDIPS - menuPaneWidth);
-		m_menuPane->Height(windowHeightDIPS - menuBarPaneHeight);
+		m_menuPane->Height(windowHeightDIPS - m_menuBarPane->Bottom());
 		m_menuPane->Width(menuPaneWidth);
 
-		m_renderPane->Top(menuBarPaneHeight);
+		m_renderPane->Top(m_menuBarPane->Bottom());
 		m_renderPane->Left(0.0f);
-		m_renderPane->Height(windowHeightDIPS - menuBarPaneHeight);
+		m_renderPane->Height(windowHeightDIPS - m_menuBarPane->Bottom());
 		m_renderPane->Width(windowWidthDIPS - menuPaneWidth);
 	}
 

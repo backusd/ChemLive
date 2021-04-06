@@ -23,16 +23,16 @@
       <Filter>Simulation</Filter>
     </ClCompile>
     <ClCompile Include="Atom.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Hydrogen.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Simulation.cpp">
       <Filter>Simulation</Filter>
     </ClCompile>
     <ClCompile Include="Electron.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Layout.cpp">
       <Filter>Layout</Filter>
@@ -68,34 +68,37 @@
       <Filter>Simulation\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Helium.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="AtomGenerator.cpp">
       <Filter>Simulation</Filter>
     </ClCompile>
     <ClCompile Include="Lithium.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Beryllium.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Boron.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Carbon.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Nitrogen.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Oxygen.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Flourine.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClCompile>
     <ClCompile Include="Neon.cpp">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
+    </ClCompile>
+    <ClCompile Include="DropDown.cpp">
+      <Filter>Menu\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,10 +132,10 @@
       <Filter>Simulation</Filter>
     </ClInclude>
     <ClInclude Include="Atom.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Hydrogen.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Simulation.h">
       <Filter>Simulation</Filter>
@@ -144,7 +147,7 @@
       <Filter>Simulation</Filter>
     </ClInclude>
     <ClInclude Include="Electron.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Layout.h">
       <Filter>Layout</Filter>
@@ -180,7 +183,7 @@
       <Filter>Simulation\Meshes</Filter>
     </ClInclude>
     <ClInclude Include="Helium.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="AtomGenerator.h">
       <Filter>Simulation</Filter>
@@ -189,31 +192,37 @@
       <Filter>Simulation</Filter>
     </ClInclude>
     <ClInclude Include="Lithium.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Elements.h">
       <Filter>Simulation</Filter>
     </ClInclude>
     <ClInclude Include="Beryllium.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Boron.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Carbon.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Nitrogen.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Oxygen.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Flourine.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
     </ClInclude>
     <ClInclude Include="Neon.h">
-      <Filter>Simulation\Particles</Filter>
+      <Filter>Simulation\Atoms</Filter>
+    </ClInclude>
+    <ClInclude Include="DropDown.h">
+      <Filter>Menu\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Theme.h">
+      <Filter>Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -264,9 +273,6 @@
     <Filter Include="Simulation\Shaders">
       <UniqueIdentifier>{e4e0f8ed-a287-4c8e-84f6-8dd2d8bfd9b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Simulation\Particles">
-      <UniqueIdentifier>{e63de2e4-64cf-44e3-a39c-972994ecb8cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Layout">
       <UniqueIdentifier>{27b3b9f8-fb5f-492c-8fa2-428ff7376aaa}</UniqueIdentifier>
     </Filter>
@@ -284,6 +290,9 @@
     </Filter>
     <Filter Include="Simulation\Meshes">
       <UniqueIdentifier>{e9655a18-ad0a-408f-9177-0499f8dd3878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation\Atoms">
+      <UniqueIdentifier>{e63de2e4-64cf-44e3-a39c-972994ecb8cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

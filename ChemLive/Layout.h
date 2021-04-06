@@ -22,6 +22,7 @@ namespace ChemLive
 		std::unique_ptr<Pane> m_renderPane;
 		std::unique_ptr<Pane> m_menuPane;
 		std::unique_ptr<Pane> m_menuBarPane;
+		std::unique_ptr<Pane> m_titleBarPane;
 
 		float m_dpi;
 
@@ -34,6 +35,7 @@ namespace ChemLive
 		Layout(CoreWindow const& window);
 		void UpdateLayout(CoreWindow const& window);
 		void UpdateLayout(DXGI_MODE_ROTATION displayRotation);
+		void UpdateLayout();
 
 
 		float DPI() { return m_dpi; }
@@ -132,6 +134,32 @@ namespace ChemLive
 				DX::ConvertDipsToPixels(m_menuBarPane->Top(), m_dpi),
 				DX::ConvertDipsToPixels(m_menuBarPane->Right(), m_dpi),
 				DX::ConvertDipsToPixels(m_menuBarPane->Bottom(), m_dpi)
+			);
+		}
+
+		// Get Title Bar Pane values in DIPS
+		float TitleBarPaneTopDIPS() { return m_titleBarPane->Top(); }
+		float TitleBarPaneLeftDIPS() { return m_titleBarPane->Left(); }
+		float TitleBarPaneWidthDIPS() { return m_titleBarPane->Width(); }
+		float TitleBarPaneHeightDIPS() { return m_titleBarPane->Height(); }
+		float TitleBarPaneRightDIPS() { return m_titleBarPane->Right(); }
+		float TitleBarPaneBottomDIPS() { return m_titleBarPane->Bottom(); }
+		D2D1_RECT_F TitleBarPaneRectFDIPS() { return D2D1::RectF(m_titleBarPane->Left(), m_titleBarPane->Top(), m_titleBarPane->Right(), m_titleBarPane->Bottom()); }
+
+		// Get Title Bar Pane values in physical pixels
+		float TitleBarPaneTopPixels() { return DX::ConvertDipsToPixels(m_titleBarPane->Top(), m_dpi); }
+		float TitleBarPaneLeftPixels() { return DX::ConvertDipsToPixels(m_titleBarPane->Left(), m_dpi); }
+		float TitleBarPaneWidthPixels() { return DX::ConvertDipsToPixels(m_titleBarPane->Width(), m_dpi); }
+		float TitleBarPaneHeightPixels() { return DX::ConvertDipsToPixels(m_titleBarPane->Height(), m_dpi); }
+		float TitleBarPaneRightPixels() { return DX::ConvertDipsToPixels(m_titleBarPane->Right(), m_dpi); }
+		float TitleBarPaneBottomPixels() { return DX::ConvertDipsToPixels(m_titleBarPane->Bottom(), m_dpi); }
+		D2D1_RECT_F TitleBarPaneRectFPixels()
+		{
+			return D2D1::RectF(
+				DX::ConvertDipsToPixels(m_titleBarPane->Left(), m_dpi),
+				DX::ConvertDipsToPixels(m_titleBarPane->Top(), m_dpi),
+				DX::ConvertDipsToPixels(m_titleBarPane->Right(), m_dpi),
+				DX::ConvertDipsToPixels(m_titleBarPane->Bottom(), m_dpi)
 			);
 		}
 

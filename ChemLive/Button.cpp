@@ -111,69 +111,6 @@ namespace ChemLive
 		default:
 			throw std::invalid_argument("Unknown value for m_verticalAlignment enum");
 		}
-		/*
-		// Finalize the location and size of the button rect
-		float height = m_buttonRect.bottom - m_buttonRect.top; 
-		float width = m_buttonRect.right - m_buttonRect.left;
-
-		switch (m_verticalAlignment)
-		{
-		case ChemLive::VerticalAlignment::STRETCH:
-			// In the STRETCH case, make the button as tall as possible while still adjusting for margins
-			// This takes precedence over any Height/Width settings 
-			m_buttonRect.top  = m_parentRect.top + m_marginTop;
-			m_buttonRect.bottom = m_parentRect.bottom - m_marginBottom;
-			break;
-		case ChemLive::VerticalAlignment::TOP:
-			// Then set the new top and bottom
-			m_buttonRect.top = m_parentRect.top + m_marginTop;
-			m_buttonRect.bottom = m_buttonRect.top + height;
-			break;
-		case ChemLive::VerticalAlignment::BOTTOM:
-			// From the bottom, go up the bottom margin plus the text height
-			m_buttonRect.bottom = m_parentRect.bottom - m_marginBottom;
-			m_buttonRect.top = m_buttonRect.bottom - height;
-			break;
-		case ChemLive::VerticalAlignment::CENTER:
-			// Compute the center of the parent rect 
-			// then go up half the height of the button rect
-			// Ignore all margins
-			m_buttonRect.top = m_parentRect.top + ((m_parentRect.bottom - m_parentRect.top) / 2) - (height / 2);
-			m_buttonRect.bottom = m_buttonRect.top + height;
-			break;
-		default:
-			throw std::invalid_argument("Unknown value for m_verticalAlignment enum");
-		}
-
-		switch (m_horizontalAlignment)
-		{
-		case ChemLive::HorizontalAlignment::STRETCH:
-			// In the STRETCH case, make the button as wide as possible while still adjusting for margins
-			// This takes precedence over any Height/Width settings 
-			m_buttonRect.left = m_parentRect.left + m_marginLeft;
-			m_buttonRect.right = m_parentRect.right - m_marginRight;
-			break;
-		case ChemLive::HorizontalAlignment::LEFT:
-			// Then set the new top and bottom
-			m_buttonRect.left = m_parentRect.left + m_marginLeft;
-			m_buttonRect.right = m_buttonRect.left + width;
-			break;
-		case ChemLive::HorizontalAlignment::RIGHT:
-			// From the bottom, go up the bottom margin plus the text height
-			m_buttonRect.right = m_parentRect.right - m_marginRight;
-			m_buttonRect.left = m_buttonRect.right - width;
-			break;
-		case ChemLive::HorizontalAlignment::CENTER:
-			// Compute the center of the parent rect 
-			// then go right half the width of the button rect
-			// Ignore all margins
-			m_buttonRect.left = m_parentRect.left + ((m_parentRect.right - m_parentRect.left) / 2) - (width / 2);
-			m_buttonRect.right = m_buttonRect.left + width;
-			break;
-		default:
-			throw std::invalid_argument("Unknown value for m_verticalAlignment enum");
-		}
-		*/
 
 		// Don't need to recursively create device dependent resources here because the call to Finalize in a few lines
 		// should create the resources for each control anyways

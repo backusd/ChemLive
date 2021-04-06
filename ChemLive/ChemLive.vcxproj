@@ -118,6 +118,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DeviceResources.h" />
     <ClInclude Include="DirectXHelper.h" />
+    <ClInclude Include="DropDown.h" />
     <ClInclude Include="Electron.h" />
     <ClInclude Include="Elements.h" />
     <ClInclude Include="Enums.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="SphereRenderer.h" />
     <ClInclude Include="StepTimer.h" />
     <ClInclude Include="TextBox.h" />
+    <ClInclude Include="Theme.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -173,6 +175,7 @@
     <ClCompile Include="ButtonClickEventArgs.cpp" />
     <ClCompile Include="Carbon.cpp" />
     <ClCompile Include="DeviceResources.cpp" />
+    <ClCompile Include="DropDown.cpp" />
     <ClCompile Include="Electron.cpp" />
     <ClCompile Include="EventArgs.cpp" />
     <ClCompile Include="Flourine.cpp" />

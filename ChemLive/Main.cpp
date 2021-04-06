@@ -4,8 +4,14 @@
 #include "TextBox.h"
 #include "Button.h"
 #include "Slider.h"
+#include "DropDown.h"
+#include "Theme.h"
 
 using winrt::Windows::Foundation::Point;
+using winrt::Windows::ApplicationModel::Core::CoreApplication;
+using winrt::Windows::ApplicationModel::Core::CoreApplicationViewTitleBar;
+using winrt::Windows::ApplicationModel::Core::CoreApplicationView;
+
 
 // This simulation itself should ONLY be concerned with the actual atoms
 // and/or whatever it is trying to simulate. Therefore, this Main class acts
@@ -33,7 +39,10 @@ namespace ChemLive
 		m_menu    = std::unique_ptr<Menu>(new Menu(m_deviceResources, m_layout->MenuPaneRectFDIPS()));
 
 		m_menuBar = std::unique_ptr<Menu>(new Menu(m_deviceResources, m_layout->MenuBarPaneRectFDIPS()));
-		m_menuBar->BackgroundColor(D2D1::ColorF::Red);
+		m_menuBar->BackgroundColor(Theme::MenuBarColor);
+
+		m_titleBar = std::unique_ptr<Menu>(new Menu(m_deviceResources, m_layout->TitleBarPaneRectFDIPS()));
+		m_titleBar->BackgroundColor(Theme::MenuBarColor);
 
 		// Simple Cube
 		//m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
@@ -74,6 +83,8 @@ namespace ChemLive
 		window.KeyDown({ this, &Main::OnKeyDown });
 		window.KeyUp({ this, &Main::OnKeyUp });
 
+
+
 		// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 		// e.g. for 60 FPS fixed timestep update logic, call:
 		/*
@@ -105,6 +116,7 @@ namespace ChemLive
 		// Menu / MenuBar
 		m_menu->MenuRect(m_layout->MenuPaneRectFDIPS());
 		m_menuBar->MenuRect(m_layout->MenuBarPaneRectFDIPS());
+		m_titleBar->MenuRect(m_layout->TitleBarPaneRectFDIPS());
 	}
 
 	// Updates the application state once per frame.
@@ -148,11 +160,6 @@ namespace ChemLive
 		if (m_sceneRenderer->IsTracking())
 			m_sceneRenderer->TrackingUpdate(m_moveLookController->MousePositionX());
 		*/
-
-		// Sphere
-		//
-		// Nothing to implement yet
-		//
 
 		// Simulation
 		
@@ -202,6 +209,7 @@ namespace ChemLive
 		m_simulationRenderer->Render(m_simulation->Atoms());
 
 		// Render the menu at the end (although it shouldn't really matter)
+		m_titleBar->Render();
 		m_menu->Render();
 		m_menuBar->Render();
 
@@ -282,6 +290,9 @@ namespace ChemLive
 	void Main::Visibility(bool visibility)
 	{
 		m_windowVisible = visibility;
+
+		if (m_windowVisible)
+			m_layout->UpdateLayout();
 	}
 	void Main::WindowActivationChanged(CoreWindowActivationState)
 	{
@@ -680,14 +691,83 @@ namespace ChemLive
 
 	void Main::AddMenuBarControls()
 	{
-		winrt::com_ptr<TextBox> textBox = winrt::make_self<TextBox>(m_deviceResources, m_menuBar->MenuRect());
-		textBox->Text(L"Menu Bar Text");
-		textBox->HorizontalAlignment(ChemLive::HorizontalAlignment::CENTER);
-		textBox->MarginTop(-5.0f);
-		textBox->FontSize(20.0f);
-		textBox->Finalize();
+		// Add File/Edit/View Drop down controls
+		winrt::com_ptr<TextBox> fileText = winrt::make_self<TextBox>(m_deviceResources, m_menuBar->MenuRect());
+		fileText->Text(L"File");
+		fileText->HorizontalAlignment(ChemLive::HorizontalAlignment::CENTER);
+		fileText->FillParent(true);
 
-		m_menuBar->AddControl(textBox);		
+		winrt::com_ptr<Button> fileButton = winrt::make_self<Button>(m_deviceResources, m_menuBar->MenuRect());
+		fileButton->BackgroundColor(Theme::MenuBarButtonColor);
+		fileButton->BackgroundColorOnPointerHover(Theme::MenuBarButtonColorOnPointerHover);
+		fileButton->BackgroundColorOnPointerDown(Theme::MenuBarButtonColorOnPointerDown);
+		fileButton->BorderThickness(0.0f);
+		fileButton->BorderThicknessOnPointerHover(0.0f);
+		fileButton->BorderThicknessOnPointerDown(0.0f);
+		fileButton->Height(20.0f);
+		fileButton->Width(60.0f);
+		fileButton->VerticalAlignment(ChemLive::VerticalAlignment::TOP);
+		fileButton->MarginLeft(10.0f);
+		fileButton->MarginRight(0.0f);
+		fileButton->MarginTop(0.0f);
+		fileButton->AddControl(fileText);
+		fileButton->Finalize();
+
+		winrt::com_ptr<TextBox> dropDownItemText1 = winrt::make_self<TextBox>(m_deviceResources, m_menuBar->MenuRect());
+		dropDownItemText1->Text(L"Item 1");
+		dropDownItemText1->HorizontalAlignment(ChemLive::HorizontalAlignment::LEFT);
+		dropDownItemText1->MarginLeft(5.0f);
+		dropDownItemText1->FillParent(true);
+
+		winrt::com_ptr<Button> dropDownButton1 = winrt::make_self<Button>(m_deviceResources, m_menuBar->MenuRect());
+		dropDownButton1->BackgroundColor(Theme::MenuBarButtonColorOnPointerDown);
+		dropDownButton1->BackgroundColorOnPointerHover(Theme::MenuBarButtonColorOnPointerHover);
+		dropDownButton1->BackgroundColorOnPointerDown(Theme::MenuBarButtonColorOnPointerHover);
+		dropDownButton1->BorderThickness(0.0f);
+		dropDownButton1->BorderThicknessOnPointerHover(0.0f);
+		dropDownButton1->BorderThicknessOnPointerDown(0.0f);
+		dropDownButton1->Height(20.0f);
+		dropDownButton1->Width(50.0f);
+		dropDownButton1->VerticalAlignment(ChemLive::VerticalAlignment::TOP);
+		dropDownButton1->AddControl(dropDownItemText1);
+		dropDownButton1->Finalize();
+
+		winrt::com_ptr<TextBox> dropDownItemText2 = winrt::make_self<TextBox>(m_deviceResources, m_menuBar->MenuRect());
+		dropDownItemText2->Text(L"Item 2");
+		dropDownItemText2->HorizontalAlignment(ChemLive::HorizontalAlignment::LEFT);
+		dropDownItemText2->MarginLeft(5.0f);
+		dropDownItemText2->FillParent(true);
+
+		winrt::com_ptr<Button> dropDownButton2 = winrt::make_self<Button>(m_deviceResources, m_menuBar->MenuRect());
+		dropDownButton2->BackgroundColor(Theme::MenuBarButtonColorOnPointerDown);
+		dropDownButton2->BackgroundColorOnPointerHover(Theme::MenuBarButtonColorOnPointerHover);
+		dropDownButton2->BackgroundColorOnPointerDown(Theme::MenuBarButtonColorOnPointerHover);
+		dropDownButton2->BorderThickness(0.0f);
+		dropDownButton2->BorderThicknessOnPointerHover(0.0f);
+		dropDownButton2->BorderThicknessOnPointerDown(0.0f);
+		dropDownButton2->Height(20.0f);
+		dropDownButton2->Width(50.0f);
+		dropDownButton2->VerticalAlignment(ChemLive::VerticalAlignment::TOP);
+		dropDownButton2->AddControl(dropDownItemText2);
+		dropDownButton2->Finalize();
+
+		winrt::com_ptr<DropDown> fileDropDown = winrt::make_self<DropDown>(m_deviceResources, m_menuBar->MenuRect());
+		fileDropDown->DropDownWidth(100.0f);
+
+		fileDropDown->DropDownBackgroundColor(Theme::MenuBarButtonColorOnPointerDown);
+		fileDropDown->DropDownBackgroundColorOnPointerHover(Theme::MenuBarButtonColorOnPointerDown);
+		fileDropDown->DropDownBackgroundColorOnPointerDown(Theme::MenuBarButtonColorOnPointerDown);
+		fileDropDown->DropDownBorderColor(Theme::MenuBarButtonColorOnPointerDown);
+		fileDropDown->DropDownBorderColorOnPointerHover(Theme::MenuBarButtonColorOnPointerDown);
+		fileDropDown->DropDownBorderColorOnPointerDown(Theme::MenuBarButtonColorOnPointerDown);
+
+		fileDropDown->SetHeaderButton(fileButton);
+		fileDropDown->AddDropDownItem(dropDownButton1);
+		fileDropDown->AddDropDownItem(dropDownButton2);
+
+		fileDropDown->Finalize();
+
+		m_menuBar->AddControl(fileDropDown);
 	}
 
 

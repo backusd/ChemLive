@@ -9,6 +9,7 @@ using winrt::Windows::ApplicationModel::SuspendingEventArgs;
 using winrt::Windows::ApplicationModel::Activation::IActivatedEventArgs;
 using winrt::Windows::ApplicationModel::Core::CoreApplication;
 using winrt::Windows::ApplicationModel::Core::CoreApplicationView;
+using winrt::Windows::ApplicationModel::Core::CoreApplicationViewTitleBar;
 using winrt::Windows::ApplicationModel::Core::IFrameworkView;
 using winrt::Windows::ApplicationModel::Core::IFrameworkViewSource;
 using winrt::Windows::Graphics::Display::DisplayInformation;
@@ -24,8 +25,11 @@ using winrt::Windows::UI::Core::VisibilityChangedEventArgs;
 using winrt::Windows::UI::Core::WindowActivatedEventArgs;
 using winrt::Windows::UI::Core::WindowSizeChangedEventArgs;
 
+using winrt::Windows::UI::ColorHelper;
+
 using winrt::Windows::Foundation::IAsyncAction;
 using winrt::Windows::UI::ViewManagement::ApplicationView;
+using winrt::Windows::UI::ViewManagement::ApplicationViewTitleBar;
 using winrt::Windows::UI::ViewManagement::ApplicationViewSwitcher;
 
 using winrt::Windows::UI::WindowManagement::AppWindow;
@@ -91,7 +95,9 @@ WINRT_EXPORT namespace ChemLive
             // Now that we have access to the CoreWindow, we can create the layout that
             // will define the pane layout for the app
             m_layout = std::shared_ptr<Layout>(new Layout(CoreWindow::GetForCurrentThread()));
-            m_deviceResources->SetLayout(m_layout);          
+            m_deviceResources->SetLayout(m_layout);  
+
+            m_layout->UpdateLayout();
         }
 
         void Run()
@@ -106,6 +112,21 @@ WINRT_EXPORT namespace ChemLive
         {
             // Run() won't start until the CoreWindow is activated.
             CoreWindow::GetForCurrentThread().Activate();
+
+
+            // Customize the title bar
+            // Use this code if all you want to do is set the color of the title bar without adding other controls
+            /*
+            int c = static_cast<int>(0.2f * 255);
+
+            ApplicationViewTitleBar titleBar = ApplicationView::GetForCurrentView().TitleBar();            
+            titleBar.BackgroundColor(ColorHelper::FromArgb(255, 255, c, c));
+            */            
+
+            // Extend the core window into the title bar
+            // ** This will NOT allow you to enable pointer interaction, but will allow you to draw static
+            //    content to the title bar region **
+            CoreApplication::GetCurrentView().TitleBar().ExtendViewIntoTitleBar(true);            
         }
         void OnSuspending(IInspectable const&, SuspendingEventArgs args)
         {

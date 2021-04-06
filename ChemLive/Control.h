@@ -71,6 +71,7 @@ namespace ChemLive
 		float MarginTop() { return m_marginTop; }
 		float MarginBottom() { return m_marginBottom; }
 		D2D1_RECT_F ParentRect() { return m_parentRect; }
+		D2D1_RECT_F ControlRect() { return m_controlRect; }
 		ChemLive::HorizontalAlignment HorizontalAlignment() { return m_horizontalAlignment; }
 		ChemLive::VerticalAlignment VerticalAlignment() { return m_verticalAlignment; }
 
