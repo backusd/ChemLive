@@ -2,9 +2,9 @@
 #include "Main.h"
 #include "DirectXHelper.h"
 #include "TextBox.h"
-#include "Button.h"
-#include "Slider.h"
-#include "DropDown.h"
+//#include "Button.h"
+//#include "Slider.h"
+//#include "DropDown.h"
 #include "Theme.h"
 
 using winrt::Windows::Foundation::Point;
@@ -232,6 +232,7 @@ namespace ChemLive
 		// Menu / Menu Bar
 		m_menu->ReleaseDeviceDependentResources();
 		m_menuBar->ReleaseDeviceDependentResources();
+		m_titleBar->ReleaseDeviceDependentResources();
 	}
 
 	// Notifies renderers that device resources may now be recreated.
@@ -248,9 +249,10 @@ namespace ChemLive
 		m_simulationRenderer->BoxDimensions(m_simulation->BoxDimensions());
 		m_simulationRenderer->CreateDeviceDependentResourcesAsync();
 
-		// Menu - Set includingControls = true because we want to restore each control as well
-		m_menu->CreateDeviceDependentResources(true);
-		m_menuBar->CreateDeviceDependentResources(true);
+		// Menus
+		m_menu->CreateDeviceDependentResources();
+		m_menuBar->CreateDeviceDependentResources();
+		m_titleBar->CreateDeviceDependentResources();
 
 		CreateWindowSizeDependentResources();
 	}
@@ -438,7 +440,30 @@ namespace ChemLive
 
 	// Add UI Controls
 	void Main::AddMenuControls()
-	{		
+	{
+		winrt::com_ptr<TextBox> playText = winrt::make_self<TextBox>(m_deviceResources, m_menu->MenuRect());
+		playText->Text(L"Play");
+		playText->HorizontalAlignment(ChemLive::HorizontalAlignment::CENTER);
+		playText->VerticalAlignment(ChemLive::VerticalAlignment::CENTER);
+
+		playText->TextColorOnPointerHover(D2D1::ColorF::Yellow);
+		playText->TextColorOnPointerDown(D2D1::ColorF::LightCyan);
+
+		playText->FontWeightOnPointerHover(DWRITE_FONT_WEIGHT::DWRITE_FONT_WEIGHT_BOLD);
+		playText->FontWeightOnPointerDown(DWRITE_FONT_WEIGHT::DWRITE_FONT_WEIGHT_EXTRA_BOLD);
+
+		playText->FontStyleOnPointerHover(DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_ITALIC);
+		playText->FontStyleOnPointerDown(DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_OBLIQUE);
+
+		playText->FontSize(20.0f);
+		playText->FontSizeOnPointerHover(24.0f);
+		playText->FontSizeOnPointerDown(32.0f);
+
+		//playText->MarginLeft(5.0f);
+
+		m_menu->AddControl(playText);
+
+		/*
 		winrt::com_ptr<TextBox> playText = winrt::make_self<TextBox>(m_deviceResources, m_menu->MenuRect());
 		playText->Text(L"Play");
 		playText->HorizontalAlignment(ChemLive::HorizontalAlignment::LEFT);
@@ -687,10 +712,12 @@ namespace ChemLive
 		specularPowerSlider->Finalize();
 		
 		m_menu->AddControl(specularPowerSlider);
+		*/
 	}
 
 	void Main::AddMenuBarControls()
 	{
+		/*
 		// Add File/Edit/View Drop down controls
 		winrt::com_ptr<TextBox> fileText = winrt::make_self<TextBox>(m_deviceResources, m_menuBar->MenuRect());
 		fileText->Text(L"File");
@@ -768,6 +795,7 @@ namespace ChemLive
 		fileDropDown->Finalize();
 
 		m_menuBar->AddControl(fileDropDown);
+		*/
 	}
 
 

@@ -19,9 +19,6 @@ namespace ChemLive
 		std::shared_ptr<DX::DeviceResources>    m_deviceResources;
 
 		// List of child controls
-		/*
-		std::vector<std::shared_ptr<Control>>   m_controls;
-		*/
 		std::vector<winrt::com_ptr<Control>>    m_controls;
 		int										m_controlThatHasCapturedPointerIndex;
 
@@ -35,7 +32,7 @@ namespace ChemLive
 
 	public:
 		Menu(const std::shared_ptr<DX::DeviceResources>& deviceResources, D2D1_RECT_F rect);
-		void CreateDeviceDependentResources(bool includingControls);
+		void CreateDeviceDependentResources();
 		void ReleaseDeviceDependentResources();
 		void Update(DX::StepTimer const& timer);
 		void Render();
@@ -47,9 +44,6 @@ namespace ChemLive
 		void PointerNotOver();
 
 		// Add Control
-		/*
-		void AddControl(std::shared_ptr<Control> control) { m_controls.push_back(control); }
-		*/
 		void AddControl(winrt::com_ptr<Control> control) { m_controls.push_back(control); }
 
 		// Set Methods

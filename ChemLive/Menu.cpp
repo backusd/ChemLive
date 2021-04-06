@@ -20,10 +20,10 @@ namespace ChemLive
 		);
 
 		// Let includingControls = false because each control's constructor should call it for them
-		CreateDeviceDependentResources(false);
+		CreateDeviceDependentResources();
 	}
 
-	void Menu::CreateDeviceDependentResources(bool includingControls)
+	void Menu::CreateDeviceDependentResources()
 	{
 		// Before you can run .put(), the value must be nullptr
 		m_backgroundBrush = nullptr;
@@ -32,12 +32,9 @@ namespace ChemLive
 			m_deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Blue), m_backgroundBrush.put())
 		);
 
-		// Call the same method for each control if necessary
-		if (includingControls)
-		{
-			for (unsigned int iii = 0; iii < m_controls.size(); ++iii)
-				m_controls[iii]->CreateDeviceDependentResources(true);
-		}
+		// Call the same method for each control
+		for (unsigned int iii = 0; iii < m_controls.size(); ++iii)
+			m_controls[iii]->CreateDeviceDependentResources();
 	}
 	void Menu::ReleaseDeviceDependentResources()
 	{
@@ -102,7 +99,9 @@ namespace ChemLive
 		for (unsigned int iii = 0; iii < m_controls.size(); ++iii)
 		{
 			m_controls[iii]->ParentRect(m_menuRect);
+			/*
 			m_controls[iii]->Finalize();
+			*/
 		}
 	}
 

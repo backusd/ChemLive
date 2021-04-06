@@ -112,13 +112,11 @@
     <ClInclude Include="AtomGenerator.h" />
     <ClInclude Include="Beryllium.h" />
     <ClInclude Include="Boron.h" />
-    <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonClickEventArgs.h" />
     <ClInclude Include="Carbon.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DeviceResources.h" />
     <ClInclude Include="DirectXHelper.h" />
-    <ClInclude Include="DropDown.h" />
     <ClInclude Include="Electron.h" />
     <ClInclude Include="Elements.h" />
     <ClInclude Include="Enums.h" />
@@ -144,7 +142,6 @@
     <ClInclude Include="ShaderStructures.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="SimulationRenderer.h" />
-    <ClInclude Include="Slider.h" />
     <ClInclude Include="SphereMesh.h" />
     <ClInclude Include="SphereRenderer.h" />
     <ClInclude Include="StepTimer.h" />
@@ -171,11 +168,9 @@
     <ClCompile Include="AtomGenerator.cpp" />
     <ClCompile Include="Beryllium.cpp" />
     <ClCompile Include="Boron.cpp" />
-    <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonClickEventArgs.cpp" />
     <ClCompile Include="Carbon.cpp" />
     <ClCompile Include="DeviceResources.cpp" />
-    <ClCompile Include="DropDown.cpp" />
     <ClCompile Include="Electron.cpp" />
     <ClCompile Include="EventArgs.cpp" />
     <ClCompile Include="Flourine.cpp" />
@@ -199,7 +194,6 @@
     <ClCompile Include="SampleFpsTextRenderer.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="SimulationRenderer.cpp" />
-    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SphereMesh.cpp" />
     <ClCompile Include="SphereRenderer.cpp" />
     <ClCompile Include="TextBox.cpp" />

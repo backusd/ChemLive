@@ -52,17 +52,11 @@
     <ClCompile Include="FontFamilyHelper.cpp">
       <Filter>Menu\Controls\HelperClasses</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Menu\Controls</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonClickEventArgs.cpp">
       <Filter>Menu\Controls\Events</Filter>
     </ClCompile>
     <ClCompile Include="EventArgs.cpp">
       <Filter>Menu\Controls\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="Slider.cpp">
-      <Filter>Menu\Controls</Filter>
     </ClCompile>
     <ClCompile Include="SphereMesh.cpp">
       <Filter>Simulation\Meshes</Filter>
@@ -96,9 +90,6 @@
     </ClCompile>
     <ClCompile Include="Neon.cpp">
       <Filter>Simulation\Atoms</Filter>
-    </ClCompile>
-    <ClCompile Include="DropDown.cpp">
-      <Filter>Menu\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,17 +158,11 @@
     <ClInclude Include="FontFamilyHelper.h">
       <Filter>Menu\Controls\HelperClasses</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Menu\Controls</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonClickEventArgs.h">
       <Filter>Menu\Controls\Events</Filter>
     </ClInclude>
     <ClInclude Include="EventArgs.h">
       <Filter>Menu\Controls\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Slider.h">
-      <Filter>Menu\Controls</Filter>
     </ClInclude>
     <ClInclude Include="SphereMesh.h">
       <Filter>Simulation\Meshes</Filter>
@@ -217,9 +202,6 @@
     </ClInclude>
     <ClInclude Include="Neon.h">
       <Filter>Simulation\Atoms</Filter>
-    </ClInclude>
-    <ClInclude Include="DropDown.h">
-      <Filter>Menu\Controls</Filter>
     </ClInclude>
     <ClInclude Include="Theme.h">
       <Filter>Menu</Filter>
